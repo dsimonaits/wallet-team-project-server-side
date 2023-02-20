@@ -26,12 +26,10 @@ const createValidator = (req, res, next) => {
           return res
             .status(400)
             .json({ message: "missing required name field" });
-          break;
         case "email":
           return res
             .status(400)
             .json({ message: "missing required email field" });
-          break;
 
         case "phone":
           return res
