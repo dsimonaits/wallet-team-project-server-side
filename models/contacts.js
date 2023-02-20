@@ -35,8 +35,9 @@ const addContact = async (body) => {
   try {
     const contacts = await getContacts();
 
-    await fs.writeFile(contactsPath, JSON.stringify([body, ...contacts])),
-      { encoding: "utf8" };
+    await fs.writeFile(contactsPath, JSON.stringify([body, ...contacts]), {
+      encoding: "utf8",
+    });
     return body;
   } catch (error) {
     console.log(error);
