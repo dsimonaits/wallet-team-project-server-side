@@ -46,9 +46,9 @@ const contactCreate = async (req, res) => {
 };
 
 const contactDelete = async (req, res) => {
-  try {
-    const contactId = req.params.contactId;
+  const contactId = req.params.contactId;
 
+  try {
     const deletedContact = await contacts.removeContact(contactId);
 
     if (!deletedContact) {
@@ -65,11 +65,11 @@ const contactDelete = async (req, res) => {
 };
 
 const contactUpdate = async (req, res) => {
+  const contactId = req.params.contactId;
+
+  const { name, email, phone } = await deepTrim(req.body);
+
   try {
-    const contactId = req.params.contactId;
-
-    const { name, email, phone } = await deepTrim(req.body);
-
     const body = {
       name,
       email,
