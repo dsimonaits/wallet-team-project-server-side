@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { WrongParametersError } = require("../../utils/errors");
 
 const schema = Joi.object({
   name: Joi.string()
@@ -25,11 +26,7 @@ const updateValidator = (req, res, next) => {
     const { error } = schema.validate(req.body);
 
     const response = (errorName) => {
-      return res.status(400).json({
-        status: "error",
-        code: 400,
-        message: `must be a valid value ${errorName}`,
-      });
+      throw new WrongParametersError(`Must be a valid value ${errorName}`);
     };
 
     if (error) {
