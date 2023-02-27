@@ -6,38 +6,43 @@ const schema = Joi.object({
     .min(3)
     .max(20)
     .required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .required(),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net"] },
+  }),
   phone: Joi.string()
     .min(6)
     .max(12)
     .pattern(/^[0-9]+$/)
     .required(),
+  favorite: Joi.boolean(),
 });
 
 const createValidator = (req, res, next) => {
-  const { error } = schema.validate(req.body);
+  try {
+    const { error } = schema.validate(req.body);
 
-  if (error) {
-    if (error.details[0].type === "any.required") {
-      switch (error.details[0].context.key) {
-        case "name":
-          return res
-            .status(400)
-            .json({ message: "missing required name field" });
-        case "email":
-          return res
-            .status(400)
-            .json({ message: "missing required email field" });
+    const response = (errorName) => {
+      return res.status(400).json({
+        status: "error",
+        code: 400,
+        message: `must be a valid ${errorName}`,
+      });
+    };
 
-        case "phone":
-          return res
-            .status(400)
-            .json({ message: "missing required phone field" });
+    if (error) {
+      if (error.details[0].type === "any.required") {
+        switch (error.details[0].context.key) {
+          case "name":
+            return response(error.details[0].context.key);
+          case "phone":
+            return response(error.details[0].context.key);
+        }
       }
+      return res.status(400).json({ error: error.details[0].message });
     }
-    return res.status(400).json({ error: error.details[0].message });
+  } catch (error) {
+    next(error);
   }
 
   next();
