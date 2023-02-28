@@ -12,7 +12,15 @@ class WrongParametersError extends RequestError {
   }
 }
 
+class ServerDown extends RequestError {
+  constructor(message) {
+    super(message);
+    this.status = 503;
+  }
+}
+
 module.exports = {
   RequestError,
   WrongParametersError,
+  ServerDown,
 };
