@@ -1,15 +1,15 @@
 const express = require("express");
 const createValidator = require("../../middlewares/joi/create.validator");
 const updateValidator = require("../../middlewares/joi/update.validator");
-const catchAsync = require("../../utils/catchAsync");
+const { catchAsync } = require("../../utils");
 const {
   getContactsCtrl,
   getContactByIdCtrl,
-  deleteContactCtrl,
   addContactCtrl,
   updateContactCtrl,
   updateContactStatusCtrl,
-} = require("../../controllers/contactsController");
+  deleteContactCtrl,
+} = require("../../controllers/contacts");
 
 const router = express.Router();
 
