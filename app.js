@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const errorHandler = require("./utils/errorHandler");
+const { checkConnection } = require("./models/connectionMongoDb");
 
 const contactsRouter = require("./routes/api/contacts");
 
@@ -9,6 +10,7 @@ const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
+app.use(checkConnection);
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
