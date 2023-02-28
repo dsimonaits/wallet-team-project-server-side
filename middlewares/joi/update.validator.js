@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { WrongParametersError } = require("../../utils/errors");
 
 const schema = Joi.object({
   name: Joi.string()
@@ -17,22 +18,41 @@ const schema = Joi.object({
     .min(6)
     .max(12)
     .pattern(/^[0-9]+$/),
+  favorite: Joi.boolean(),
 });
 
 const updateValidator = (req, res, next) => {
-  const { error, value } = schema.validate(req.body);
+  try {
+    const { error } = schema.validate(req.body);
 
-  const { name, email, phone } = value;
+    const response = (errorName) => {
+      throw new WrongParametersError(`Must be a valid value ${errorName}`);
+    };
 
-  if (!name && !email && !phone) {
-    return res.status(400).json({ message: "missing fields" });
+    if (error) {
+      switch (error.details[0].context.key) {
+        case "name":
+          return response(error.details[0].context.key);
+        case "email":
+          return response(error.details[0].context.key);
+        case "phone":
+          return response(error.details[0].context.key);
+
+        case "favorite":
+          return response(error.details[0].context.key);
+        default:
+          return res.status(400).json({
+            status: "error",
+            code: 400,
+            message: error.details[0].message,
+          });
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
   }
-
-  if (error) {
-    return res.status(400).json({ error: error.details[0].message });
-  }
-
-  next();
 };
 
 module.exports = updateValidator;
