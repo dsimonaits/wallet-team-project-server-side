@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const WrongParametersError = require("../../utils/index");
+const { WrongParametersError } = require("../../helpers/errors");
 
 const schema = Joi.object({
   name: Joi.string()
