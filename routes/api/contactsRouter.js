@@ -1,7 +1,7 @@
 const express = require("express");
 const createValidator = require("../../middlewares/joi/create.validator");
-const updateValidator = require("../../middlewares/joi/update.validator");
-const { catchAsync } = require("../../utils");
+const updateValidator = require("../../middlewares/joi/contactUpdate.validator");
+const { catchAsync } = require("../../helpers/errors");
 const {
   getContactsCtrl,
   getContactByIdCtrl,
@@ -9,7 +9,7 @@ const {
   updateContactCtrl,
   updateContactStatusCtrl,
   deleteContactCtrl,
-} = require("../../controllers/contacts");
+} = require("../../controllers/contactsCtrl");
 
 const router = express.Router();
 

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { ServerDown } = require("../utils");
 
 const mongooseConnect = async () => {
   mongoose.set("strictQuery", true);

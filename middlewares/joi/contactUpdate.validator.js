@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { WrongParametersError } = require("../../utils");
+const { WrongParametersError } = require("../../helpers/errors");
 
 const schema = Joi.object({
   name: Joi.string()
@@ -21,7 +21,7 @@ const schema = Joi.object({
   favorite: Joi.boolean(),
 });
 
-const updateValidator = (req, res, next) => {
+const contactUpdateValidator = (req, res, next) => {
   try {
     const { error } = schema.validate(req.body);
 
@@ -55,4 +55,4 @@ const updateValidator = (req, res, next) => {
   }
 };
 
-module.exports = updateValidator;
+module.exports = contactUpdateValidator;
