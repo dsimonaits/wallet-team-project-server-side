@@ -3,6 +3,7 @@ const signUpCtrl = require("./signUpCtrl");
 const logoutCtrl = require("./logoutCtrl");
 const currentCtrl = require("./currentCtrl");
 const updateSubscriptionStatusCtrl = require("./updateSubscriptionStatusCtrl");
+const updateAvatarCtrl = require("./updateAvatarCtrl");
 
 module.exports = {
   signInCtrl,
@@ -10,4 +11,5 @@ module.exports = {
   logoutCtrl,
   currentCtrl,
   updateSubscriptionStatusCtrl,
+  updateAvatarCtrl,
 };
