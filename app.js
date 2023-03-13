@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/users", authRouter);
 app.use("/api/contacts", auth, contactsRouter);
-app.use("/api/avatars", filesRouter);
+app.use("/avatars", filesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Page not found" });
