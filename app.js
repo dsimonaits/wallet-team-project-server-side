@@ -5,6 +5,7 @@ const { checkConnection } = require("./models/connectionMongoDb");
 const auth = require("./middlewares/auth");
 const contactsRouter = require("./routes/api/contactsRouter");
 const authRouter = require("./routes/api/authRouter");
+const filesRouter = require("./routes/api/filesRouter");
 require("./config/config-passport");
 const errorHandler = require("./helpers/errors/errorHandler");
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/users", authRouter);
 app.use("/api/contacts", auth, contactsRouter);
+app.use("/api/avatars", filesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Page not found" });
