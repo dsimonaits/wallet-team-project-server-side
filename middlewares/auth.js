@@ -16,7 +16,7 @@ const auth = (req, res, next) => {
 
     const [bearer, token] = req.headers.authorization.split(" ");
 
-    if (bearer !== "bearer") {
+    if (bearer !== "Bearer") {
       return res.status(401).json({
         status: "unauthorized",
         code: 401,
