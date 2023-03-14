@@ -1,6 +1,6 @@
 const passport = require("passport");
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const response = () => {
       return res.status(401).json({
