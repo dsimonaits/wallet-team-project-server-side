@@ -4,15 +4,18 @@ const { responseOk } = require("../../helpers/responses");
 
 const updateAvatarCtrl = async (req, res) => {
   const { _id: userId } = req.user;
-  const { fieldname } = req.body;
 
-  console.log(req.file);
+  if (req.file === undefined) {
+    throw new WrongParametersError("Missing file!");
+  }
 
-  if (!fieldname !== "avatar") {
+  const { fieldname, path, originalname } = req.file;
+
+  if (fieldname !== "avatar") {
     throw new WrongParametersError("Missing field avatar!");
   }
 
-  // const updatedContact = await updateAvatar(userId, avatar);
+  await updateAvatar(userId, path, originalname);
 
   return res.json(responseOk("success", 201, "Avatar updated successfully"));
 };
