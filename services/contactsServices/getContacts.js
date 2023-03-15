@@ -7,6 +7,7 @@ const getContacts = async (owner, { page, limit, favorite }) => {
     owner,
     favorite: favorite || { $in: [true, false] },
   })
+    // .populate("owner", ["email"])
     .skip(skip)
     .limit(limit);
 
