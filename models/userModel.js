@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, "Verify token is required"],
+  },
 });
 
 userSchema.pre("save", async function () {
@@ -29,8 +37,8 @@ userSchema.pre("save", async function () {
   }
 });
 
-userSchema.methods.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
+userSchema.methods.validPassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
 const Users = mongoose.model("user", userSchema);
