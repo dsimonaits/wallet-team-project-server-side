@@ -6,7 +6,9 @@ const signInCtrl = async (req, res, next) => {
 
   const user = await signIn(email, password);
 
-  res.json(responseOk("Success", 200, "User signed in successfully", user));
+  return res.json(
+    responseOk("Success", 200, "User signed in successfully", user)
+  );
 };
 
 module.exports = signInCtrl;

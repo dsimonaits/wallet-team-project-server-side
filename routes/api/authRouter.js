@@ -7,6 +7,7 @@ const {
   logoutCtrl,
   currentCtrl,
   updateSubscriptionStatusCtrl,
+  updateAvatarCtrl,
 } = require("../../controllers/authCtrl");
 const {
   registerValidator,
@@ -14,6 +15,7 @@ const {
   userUpdateValidator,
 } = require("../../middlewares/joi");
 const auth = require("../../middlewares/auth");
+const multerUploadMiddleware = require("../../middlewares/multerUploadMiddleware");
 
 router.post("/signup", registerValidator, catchAsync(signUpCtrl));
 router.post("/signin", loginValidator, catchAsync(signInCtrl));
@@ -24,6 +26,12 @@ router.patch(
   auth,
   userUpdateValidator,
   catchAsync(updateSubscriptionStatusCtrl)
+);
+router.patch(
+  "/avatars",
+  auth,
+  multerUploadMiddleware.single("avatar"),
+  catchAsync(updateAvatarCtrl)
 );
 
 module.exports = router;

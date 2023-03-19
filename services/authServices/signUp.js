@@ -1,4 +1,5 @@
 const User = require("../../models/userModel");
+const gravatar = require("gravatar");
 const { Conflict } = require("../../helpers/errors");
 
 const register = async (email, password) => {
@@ -8,7 +9,9 @@ const register = async (email, password) => {
     throw new Conflict("Email in use", "conflict");
   }
 
-  await User.create({ email, password });
+  const avatarURL = gravatar.url(email);
+
+  await User.create({ email, password, avatarURL });
 
   const newUser = await User.findOne({ email }).select({
     email: 1,

@@ -9,7 +9,9 @@ const signIn = async (email, password) => {
     throw new Unauthorized("Email or password is wrong", "Unauthorized");
   }
 
-  const token = jwt.sign({ _id: user._id, email }, process.env.SECRET);
+  const token = jwt.sign({ _id: user._id, email }, process.env.SECRET, {
+    expiresIn: "1h",
+  });
 
   user = await User.findOneAndUpdate(
     { email },

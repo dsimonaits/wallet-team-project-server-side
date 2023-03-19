@@ -1,6 +1,6 @@
 const passport = require("passport");
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const response = () => {
       return res.status(401).json({
@@ -10,7 +10,19 @@ const auth = (req, res, next) => {
       });
     };
 
-    const [, token] = req.headers.authorization.split(" ");
+    if (!req.headers.authorization) {
+      return response();
+    }
+
+    const [bearer, token] = req.headers.authorization.split(" ");
+
+    if (bearer !== "Bearer") {
+      return res.status(401).json({
+        status: "unauthorized",
+        code: 401,
+        ResponseBody: { message: "Token is not a bearer token" },
+      });
+    }
 
     passport.authenticate(
       "jwt",
