@@ -3,7 +3,8 @@ const { Unauthorized } = require("../../helpers/errors");
 const jwt = require("jsonwebtoken");
 
 const signIn = async (email, password) => {
-  let user = await User.findOne({ email });
+  let user = await User.findOne({ email, verify: true });
+  console.log(user);
 
   if (!user || !user.validPassword(password)) {
     throw new Unauthorized("Email or password is wrong", "Unauthorized");
