@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const verificationSchema = new mongoose.Schema({
-  code: {
+  verificationToken: {
     type: String,
     required: [true, "Password is required"],
   },
@@ -20,6 +20,6 @@ const verificationSchema = new mongoose.Schema({
   },
 });
 
-const verification = mongoose.model("verification", verificationSchema);
+const Verification = mongoose.model("verification", verificationSchema);
 
-module.exports = verification;
+module.exports = Verification;
