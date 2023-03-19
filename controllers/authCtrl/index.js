@@ -4,6 +4,8 @@ const logoutCtrl = require("./logoutCtrl");
 const currentCtrl = require("./currentCtrl");
 const updateSubscriptionStatusCtrl = require("./updateSubscriptionStatusCtrl");
 const updateAvatarCtrl = require("./updateAvatarCtrl");
+const signUpVerificationCtrl = require("./signUpVerificationCtrl");
+const resendVerificationCtrl = require("./resendVerificationCtrl");
 
 module.exports = {
   signInCtrl,
@@ -12,4 +14,6 @@ module.exports = {
   currentCtrl,
   updateSubscriptionStatusCtrl,
   updateAvatarCtrl,
+  signUpVerificationCtrl,
+  resendVerificationCtrl,
 };
