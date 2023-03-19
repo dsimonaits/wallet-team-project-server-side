@@ -1,5 +1,9 @@
 const User = require("../../models/userModel");
+const { v4: uuidv4 } = require("uuid");
 const gravatar = require("gravatar");
+require("dotenv").config();
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const { Conflict } = require("../../helpers/errors");
 
 const register = async (email, password) => {
@@ -11,13 +15,32 @@ const register = async (email, password) => {
 
   const avatarURL = gravatar.url(email);
 
-  await User.create({ email, password, avatarURL });
+  const verificationToken = uuidv4();
+
+  await User.create({ email, password, avatarURL, verificationToken });
 
   const newUser = await User.findOne({ email }).select({
     email: 1,
     subscription: 1,
     _id: 0,
   });
+
+  const msg = {
+    to: email,
+    from: "dsimonaits@gmail.com",
+    subject: "Please verify your email",
+    text: `Verify your account by clicking here <a href:"http://localhost:3000/api/users/verify/:${verificationToken}">Verify</a>`,
+    html: `Verify your account by clicking here <a href:"http://localhost:3000/api/users/verify/:${verificationToken}">Verify</a>`,
+  };
+
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   return newUser;
 };
