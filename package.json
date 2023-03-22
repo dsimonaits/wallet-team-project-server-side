@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@sendgrid/mail": "^7.7.0",
     "bcryptjs": "^2.4.3",
     "cors": "2.8.5",
@@ -20,6 +21,7 @@
     "gravatar": "^1.8.2",
     "jimp": "^0.22.7",
     "joi": "^17.8.1",
+    "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.0",
     "md5": "^2.3.0",
     "mongoose": "^6.10.0",
