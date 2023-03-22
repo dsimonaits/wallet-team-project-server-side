@@ -7,12 +7,9 @@ const schema = Joi.object({
     .regex(/^[A-Z]|[A-Z]+ [A-Z]+$/i)
     .min(3)
     .max(20),
-  email: Joi.string()
-    .trim()
-    .email({
-      minDomainSegments: 2,
-      tlds: { allow: ["com", "net"] },
-    }),
+  email: Joi.string().trim().email({
+    minDomainSegments: 2,
+  }),
   phone: Joi.string()
     .trim()
     .min(6)
@@ -22,11 +19,15 @@ const schema = Joi.object({
 });
 
 const contactUpdateValidator = (req, res, next) => {
+  console.log(req.body.error);
   try {
     const { error } = schema.validate(req.body);
 
     const response = (errorName) => {
-      throw new WrongParametersError(`Must be a valid value ${errorName}`);
+      throw new WrongParametersError(
+        `Must be a valid value ${errorName}`,
+        "Bad request"
+      );
     };
 
     if (error) {
@@ -37,7 +38,6 @@ const contactUpdateValidator = (req, res, next) => {
           return response(error.details[0].context.key);
         case "phone":
           return response(error.details[0].context.key);
-
         case "favorite":
           return response(error.details[0].context.key);
         default:
