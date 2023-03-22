@@ -1,6 +1,9 @@
 const express = require("express");
-const createValidator = require("../../middlewares/joi/create.validator");
-const updateValidator = require("../../middlewares/joi/contactUpdate.validator");
+const {
+  createValidator,
+  contactIdValidator,
+  contactUpdateValidator,
+} = require("../../middlewares/joi");
 const { catchAsync } = require("../../helpers/errors");
 const {
   getContactsCtrl,
@@ -15,17 +18,21 @@ const router = express.Router();
 
 router.get("/", catchAsync(getContactsCtrl));
 
-router.get("/:contactId", catchAsync(getContactByIdCtrl));
+router.get("/:contactId", contactIdValidator, catchAsync(getContactByIdCtrl));
 
 router.post("/", createValidator, catchAsync(addContactCtrl));
 
-router.delete("/:contactId", catchAsync(deleteContactCtrl));
+router.delete("/:contactId", contactIdValidator, catchAsync(deleteContactCtrl));
 
-router.put("/:contactId", updateValidator, catchAsync(updateContactCtrl));
+router.put(
+  "/:contactId",
+  [contactIdValidator, contactUpdateValidator],
+  catchAsync(updateContactCtrl)
+);
 
 router.put(
   "/:contactId/favorite",
-  updateValidator,
+  [contactIdValidator, contactUpdateValidator],
   catchAsync(updateContactStatusCtrl)
 );
 
