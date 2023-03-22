@@ -10,7 +10,10 @@ const userUpdateValidator = (req, res, next) => {
     const { error } = schema.validate(req.body);
 
     const response = (errorName) => {
-      throw new WrongParametersError(`Must be a valid value ${errorName}`);
+      throw new WrongParametersError(
+        `Must be a valid value ${errorName}`,
+        "Bad request"
+      );
     };
 
     if (error) {
