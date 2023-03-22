@@ -2,14 +2,16 @@ const User = require("../../models/userModel");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const { Conflict } = require("../../helpers/errors");
+const { registrationCompleteEmail } = require("../../public/emailTemplate");
 
 const signUpVerification = async (verificationToken) => {
-  console.log(verificationToken);
-
   const user = await User.findOne({ verificationToken });
 
   if (!user) {
-    throw new Conflict("User not found", "conflict");
+    throw new Conflict(
+      "User not found or verification time expired. Try resend verification token.",
+      "conflict"
+    );
   }
   user.verify = true;
   user.verificationToken = "null";
@@ -20,8 +22,8 @@ const signUpVerification = async (verificationToken) => {
     to: user.email,
     from: "dsimonaits@gmail.com",
     subject: "Registration",
-    text: "Congratulations, you have successfully registered",
-    html: "<strong>Congratulations, you have successfully registered</strong>",
+    text: registrationCompleteEmail(),
+    html: registrationCompleteEmail(),
   };
   sgMail
     .send(msg)
