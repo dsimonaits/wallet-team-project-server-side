@@ -4,6 +4,7 @@ const gravatar = require("gravatar");
 require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const { verificationRequestEmail } = require("../../public/emailTemplate");
 const { Conflict } = require("../../helpers/errors");
 
 const register = async (email, password) => {
@@ -29,8 +30,8 @@ const register = async (email, password) => {
     to: email,
     from: "dsimonaits@gmail.com",
     subject: "Please verify your email",
-    text: `Verify your account by clicking here <a href:"http://localhost:3000/api/users/verify/:${verificationToken}">Verify</a>`,
-    html: `Verify your account by clicking here <a href:"http://localhost:3000/api/users/verify/:${verificationToken}">Verify</a>`,
+    text: verificationRequestEmail(email, verificationToken),
+    html: verificationRequestEmail(email, verificationToken),
   };
 
   sgMail
