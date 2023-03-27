@@ -10,7 +10,6 @@ const schema = Joi.object({
   email: Joi.string()
     .email({
       minDomainSegments: 2,
-      tlds: { allow: ["com", "net"] },
     })
     .required(),
 });
@@ -19,7 +18,10 @@ const registerValidator = (req, res, next) => {
   try {
     const { error } = schema.validate(req.body);
     const response = (errorName, text) => {
-      throw new WrongParametersError(`Must be a valid ${errorName}. ${text}`);
+      throw new WrongParametersError(
+        `Must be a valid ${errorName}. ${text}`,
+        "Bad request"
+      );
     };
 
     if (error) {

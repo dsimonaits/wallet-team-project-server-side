@@ -1,13 +1,14 @@
-const Joi = require("joi");
+const Joi = require("@hapi/joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const { WrongParametersError } = require("../../helpers/errors");
 
 const schema = Joi.object({
-  subscription: Joi.string().valid("starter", "pro", "business"),
+  contactId: Joi.string().regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i),
 });
 
-const userUpdateValidator = (req, res, next) => {
+const contactIdValidator = (req, res, next) => {
   try {
-    const { error } = schema.validate(req.body);
+    const { error } = schema.validate(req.params);
 
     const response = (errorName) => {
       throw new WrongParametersError(
@@ -26,4 +27,4 @@ const userUpdateValidator = (req, res, next) => {
   }
 };
 
-module.exports = userUpdateValidator;
+module.exports = contactIdValidator;

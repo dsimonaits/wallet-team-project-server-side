@@ -4,7 +4,7 @@ const { AuthError } = require("./authErrors");
 const errorHandler = (error, req, res, next) => {
   if (error instanceof RequestError) {
     return res.status(error.status).json({
-      status: "error",
+      status: error.statusType,
       code: error.status,
       ResponseBody: { message: error.message },
     });

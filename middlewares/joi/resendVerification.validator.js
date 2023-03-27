@@ -2,10 +2,14 @@ const Joi = require("joi");
 const { WrongParametersError } = require("../../helpers/errors");
 
 const schema = Joi.object({
-  subscription: Joi.string().valid("starter", "pro", "business"),
+  email: Joi.string()
+    .email({
+      minDomainSegments: 2,
+    })
+    .required(),
 });
 
-const userUpdateValidator = (req, res, next) => {
+const resendVerificationValidator = (req, res, next) => {
   try {
     const { error } = schema.validate(req.body);
 
@@ -26,4 +30,4 @@ const userUpdateValidator = (req, res, next) => {
   }
 };
 
-module.exports = userUpdateValidator;
+module.exports = resendVerificationValidator;

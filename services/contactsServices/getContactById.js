@@ -5,7 +5,7 @@ const getContactById = async (id, owner) => {
   const contactById = await Contacts.findOne({ _id: id, owner });
 
   if (!contactById) {
-    throw new NotFound("Not found");
+    throw new NotFound("Contact not found", "Not found");
   }
 
   return contactById;

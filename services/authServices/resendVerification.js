@@ -1,30 +1,29 @@
 const User = require("../../models/userModel");
-const { v4: uuidv4 } = require("uuid");
-const gravatar = require("gravatar");
-require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const { verificationRequestEmail } = require("../../public/emailTemplate");
+const { v4: uuidv4 } = require("uuid");
 const { Conflict } = require("../../helpers/errors");
+const { WrongParametersError } = require("../../helpers/errors");
 
-const register = async (email, password) => {
+const resendVerification = async (email) => {
   const user = await User.findOne({ email });
 
-  if (user) {
-    throw new Conflict("Email in use", "conflict");
+  if (!user) {
+    throw new Conflict("User not found", "conflict");
   }
 
-  const avatarURL = gravatar.url(email);
+  if (user.verify === true) {
+    throw new WrongParametersError(
+      "Verification has already been passed",
+      "Bad Request"
+    );
+  }
 
   const verificationToken = uuidv4();
 
-  await User.create({ email, password, avatarURL, verificationToken });
+  user.verificationToken = verificationToken;
 
-  const newUser = await User.findOne({ email }).select({
-    email: 1,
-    subscription: 1,
-    _id: 0,
-  });
+  await user.save();
 
   const msg = {
     to: email,
@@ -42,8 +41,6 @@ const register = async (email, password) => {
     .catch((error) => {
       console.error(error);
     });
-
-  return newUser;
 };
 
-module.exports = register;
+module.exports = resendVerification;
