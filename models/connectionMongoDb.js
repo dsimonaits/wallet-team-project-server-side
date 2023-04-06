@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const mongooseConnect = async () => {
   mongoose.set("strictQuery", true);
@@ -6,7 +7,7 @@ const mongooseConnect = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  console.log(process.env.DB_HOST);
+  console.log(typeof process.env.DB_HOST);
 };
 
 const checkConnection = (req, res, next) => {
