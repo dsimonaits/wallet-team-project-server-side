@@ -1,11 +1,11 @@
 
 
 secrets:
-  - name: PORT
-value: ${{secrets.PORT}}
   - name: DATABASE_PASSWORD
-value: ${{secrets.DATABASE_PASSWORD}}
+value: ${{ secrets.DATABASE_PASSWORD }}
   - name: SECRET
-value: ${{secrets.SECRET}}
+value: ${{ secrets.SECRET }}
   - name: NODE_ENV
-value: ${{secrets.NODE_ENV}}
+value: ${{ secrets.NODE_ENV }}
+  - name: PORT
+value: ${{ secrets.PORT }}
