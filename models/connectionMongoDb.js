@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const host =
-  "mongodb+srv://wallet-team:uury3qBRwBUYVHNn@cluster0.decnx92.mongodb.net/db-wallet?retryWrites=true&w=majority";
+// const host = "mongodb+srv://wallet-team:uury3qBRwBUYVHNn@cluster0.decnx92.mongodb.net/db-wallet?retryWrites=true&w=majority";
 
 const mongooseConnect = async () => {
   mongoose.set("strictQuery", true);
-  await mongoose.connect(host, {
+  await mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
