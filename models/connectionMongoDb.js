@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// const host = "mongodb+srv://wallet-team:uury3qBRwBUYVHNn@cluster0.decnx92.mongodb.net/db-wallet?retryWrites=true&w=majority";
+const PASSWORD = process.env.DATABASE_PASSWORD;
 
 const mongooseConnect = async () => {
   mongoose.set("strictQuery", true);
-  await mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(
+    `mongodb+srv://wallet-team:${PASSWORD}@cluster0.decnx92.mongodb.net/db-wallet?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  );
   console.log(typeof process.env.DB_HOST);
 };
 
