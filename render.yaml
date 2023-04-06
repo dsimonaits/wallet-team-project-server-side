@@ -1,7 +1,7 @@
-# secrets:
-#   - name: PORT
-# value: ${{secrets.PORT}}
-#   - name: DB_HOST
-# value: ${{secrets.DB_HOST}}
-#   - name: SECRET
-# value: ${{secrets.SECRET}}
+secrets:
+  - name: PORT
+value: ${{secrets.PORT}}
+  - name: DB_HOST
+value: ${{secrets.DB_HOST}}
+  - name: SECRET
+value: ${{secrets.SECRET}}
