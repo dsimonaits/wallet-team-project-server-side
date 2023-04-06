@@ -1,8 +1,10 @@
+
+
 secrets:
   - name: PORT
 value: ${{secrets.PORT}}
-  - name: DB_HOST
-value: ${{secrets.DB_HOST}}
+  - name: DATABASE_URL
+value: ${{secrets.DATABASE_URL}}
   - name: SECRET
 value: ${{secrets.SECRET}}
   - name: NODE_ENV
