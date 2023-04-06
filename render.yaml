@@ -5,3 +5,5 @@ value: ${{secrets.PORT}}
 value: ${{secrets.DB_HOST}}
   - name: SECRET
 value: ${{secrets.SECRET}}
+  - name: NODE_ENV
+value: ${{secrets.NODE_ENV}}
