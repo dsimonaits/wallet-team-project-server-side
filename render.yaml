@@ -3,9 +3,15 @@
 secrets:
   - name: DATABASE_PASSWORD
 value: ${{ secrets.DATABASE_PASSWORD }}
+
+secrets:
   - name: SECRET
 value: ${{ secrets.SECRET }}
+
+secrets:
   - name: NODE_ENV
 value: ${{ secrets.NODE_ENV }}
+
+secrets:
   - name: PORT
 value: ${{ secrets.PORT }}
