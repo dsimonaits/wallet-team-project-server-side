@@ -1,4 +1,4 @@
-const TransactionSchema = require("../../models/transactionSchema");
+const { TransactionSchema } = require("../../models/transaction");
 const { WrongParametersError } = require("../../helpers/errors");
 
 const transactionCreate = async ({ type, sum, category, date, comment }) => {

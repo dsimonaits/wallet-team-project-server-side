@@ -1,4 +1,4 @@
-const TransactionSchema = require("../../models/transactionSchema");
+const { TransactionSchema } = require("../../models/transaction");
 
 const transactionDelete = async ({ _id }) => {
   await TransactionSchema.findByIdAndDelete({ _id });
