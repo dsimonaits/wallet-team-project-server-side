@@ -17,6 +17,10 @@ const userSchema = new Schema({
       unique: true,
       index:true, 
     },
+    token: {
+      type: String,
+      default: null,
+    },
 isActivated:{
     type: Boolean,
     default:false
