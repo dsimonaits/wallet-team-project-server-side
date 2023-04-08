@@ -38,11 +38,11 @@ const transactionSchema = new Schema({
   //   year: {
   //     type: Number,
   //   },
-  //   owner: {
-  //     type: Object,
-  //     ref: "user",
-  //     required: true,
-  //   },
+  owner: {
+    type: Object,
+    ref: "user",
+    required: true,
+  },
 });
 
 // transactionSchema.pre("save", function (next) {
