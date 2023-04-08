@@ -1,8 +1,7 @@
 const { TransactionSchema } = require("../../models/transaction");
 
-const transactionDelete = async ({ _id }) => {
-  await TransactionSchema.findByIdAndDelete({ _id });
-  // нужно ли делать проверку если транзакция есть?
+const transactionDelete = async ({ _id }, owner) => {
+  await TransactionSchema.findByIdAndDelete({ _id }, owner);
 };
 
 module.exports = transactionDelete;
