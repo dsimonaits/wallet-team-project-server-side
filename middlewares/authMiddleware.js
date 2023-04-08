@@ -8,7 +8,7 @@ const authMiddleware = async (req, res, next) => {
       throw new Unauthorized("Not authorized");
     }
     const [tokenType, token] = req.headers.authorization.split(" ");
-    if (tokenType !== "Baryer") {
+    if (tokenType !== "Bearer") {
       throw new Unauthorized("Invalid token type");
     }
     const user = jwt.decode(token, process.env.JWT_SECRET);
