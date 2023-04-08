@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const { transactionRouter } = require("./routes/api");
 const authRouter = require("./routes/api/auth");
 const { checkConnection } = require("./models/connectionMongoDb");
 const errorHandler = require("./helpers/errors/errorHandler");
@@ -21,6 +22,7 @@ require("./config/config-passport");
 
 app.use("/api/user", authRouter);
 app.use("/api/test", test);
+app.use("/api/transaction", transactionRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Page not found" });
