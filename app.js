@@ -1,6 +1,9 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+
 const { transactionRouter } = require("./routes/api");
 const authRouter = require("./routes/api/auth");
 const { checkConnection } = require("./models/connectionMongoDb");
@@ -19,6 +22,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 require("./config/config-passport");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/user", authRouter);
 app.use("/api/test", test);
