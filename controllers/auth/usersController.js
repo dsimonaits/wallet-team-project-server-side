@@ -1,17 +1,11 @@
 const { responseOk } = require("../../helpers/responses");
+const allUsers=require('../../services/auth/users')
 
+const usersController=async(req, res, next)=>{
 
-const usersController=(req, res, next)=>{
-
-try{
-  
-  console.log('req',req)
-  res.json(responseOk("Success", 201, "Text message created", ));
+ const users = await allUsers()
+ console.log('users',users)
+  res.json(responseOk("Success", 201, "Text message created", users));
 
 }
-catch(error) {
-  next(error);
-}
-}
-module.exports={
-    usersController}
+module.exports=usersController

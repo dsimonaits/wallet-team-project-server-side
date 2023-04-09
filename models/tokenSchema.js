@@ -8,7 +8,7 @@ user:{
     type: Schema.Types.ObjectId, 
     ref:"user"
 },
-   refrshToken:{
+   refreshToken:{
         type:String,
         required:true
   }
