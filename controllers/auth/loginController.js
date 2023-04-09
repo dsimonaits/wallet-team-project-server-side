@@ -1,4 +1,4 @@
-const loginService = require("../../services/testMessage/auth/loginService");
+const loginService = require("../../services/auth/loginService");
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
