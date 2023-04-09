@@ -47,6 +47,7 @@ newUser.refreshToken = refreshToken;
   await newUser.save();
    console.log('newUser',newUser)
 
+   
 //   const { _id: id } = await newUser.save();
 //   console.log('user',user)
 
