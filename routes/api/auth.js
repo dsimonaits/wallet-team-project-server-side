@@ -13,10 +13,10 @@ const auth = require("../../middlewares/authMiddlewares");
 
 router.post("/signup", catchAsync(signupController));
 router.post("/login", catchAsync(loginController));
-router.post("/logout", auth, catchAsync(logoutController));
+router.get("/logout", auth, catchAsync(logoutController));
 // router.get('/users/current',currentUser )
 // router.get('/activate/:link', activate)
-// router.get('/:id', catchAsync(getUserById))
+// router.get("/:id", catchAsync(getUserById));
 router.get("/refresh", refreshTokenController);
 router.get("/users", catchAsync(usersController));
 
