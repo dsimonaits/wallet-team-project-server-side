@@ -4,9 +4,9 @@ const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name:{
-    type:String,
-     required: [true, "name is required"]
+  name: {
+    type: String,
+    required: [true, "name is required"],
   },
     password: {
       type: String,
@@ -57,3 +57,4 @@ isActivated:{
   
   const UserSchema = mongoose.model("User", userSchema);
   module.exports = UserSchema;
+

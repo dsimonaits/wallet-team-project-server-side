@@ -1,8 +1,15 @@
-const express=require('express');
+const express = require("express");
 const router = express.Router();
 const { catchAsync } = require("../../helpers/errors");
-const{signupController,usersController,refreshTokenController, getUserById}=require('../../controllers/auth/index')
+const {
+  signupController,
+  usersController,
+  refreshTokenController,
+  loginController,
+  logoutController,
+} = require("../../controllers/auth/index");
 
+const auth = require("../../middlewares/authMiddlewares");
 
 router.post('/signup', catchAsync(signupController));
 // router.post('/login', login)
@@ -12,8 +19,6 @@ router.post('/signup', catchAsync(signupController));
 router.get('/:id', catchAsync(getUserById))
 router.get('/refresh', refreshTokenController)
 router.get('/users', catchAsync(usersController))
-
-
 
 
 module.exports = router;
