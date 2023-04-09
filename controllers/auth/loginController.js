@@ -15,9 +15,8 @@ const loginController = async (req, res) => {
     Status: "200 OK",
     ResponseBody: {
       token: user.token,
-      user: {
-        email: user.email,
-      },
+      name: user.name,
+      balance: null,
     },
   });
 };
