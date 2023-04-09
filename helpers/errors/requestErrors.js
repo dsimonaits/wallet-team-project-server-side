@@ -7,9 +7,10 @@ class RequestError extends Error {
 
 class WrongParametersError extends RequestError {
   constructor(message, statusType) {
-    super(message);
+    super();
     this.status = 400;
     this.statusType = statusType;
+    this.message = message;
   }
 }
 
