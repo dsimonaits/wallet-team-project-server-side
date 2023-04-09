@@ -20,7 +20,7 @@
     { "name": "Transaction", "description": "Transactions endpoints" }
   ],
   "paths": {
-    "api/user/signup": {
+    "/api/user/signup": {
       "post": {
         "tags": ["Auth"],
         "summary ": "User registration",
@@ -58,7 +58,61 @@
         }
       }
     },
-    "api/transaction/create": {
+    "/api/user/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary ": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incorrect login or password",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary ": "Logout user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Logout success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction/create": {
       "post": {
         "tags": ["Transaction"],
         "summary ": "Create transaction",
@@ -93,7 +147,7 @@
         }
       }
     },
-    "api/transaction/getAll": {
+    "/api/transaction/getAll": {
       "get": {
         "tags": ["Transaction"],
         "summary ": "Get all transactions",
@@ -115,10 +169,56 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
+          }
+        }
+      }
+    },
+    "/api/transaction/category": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary ": "Get categories array",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Categories array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction/delete": {
+      "delete": {
+        "tags": ["Transaction"],
+        "summary ": "Delete transaction by id",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "object",
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transaction deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTransactionResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -166,6 +266,45 @@
             "example": "3000"
           }
         }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Login token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex Solt"
+          },
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": "3000"
+          }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object"
       },
       "CreateTransactionRequest": {
         "type": "object",
@@ -270,6 +409,24 @@
             }
           }
         }
+      },
+      "GetCategoryResponse": {
+        "type": "array",
+        "items": ["string"]
+      },
+      "DeleteTransactionRequest": {
+        "type": "object",
+        "required": ["_id"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Transaction id",
+            "example": "64317ec050d38b59cdd0221d"
+          }
+        }
+      },
+      "DeleteTransactionResponse": {
+        "type": "object"
       }
     },
     "securitySchemes": {
