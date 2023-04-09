@@ -3,6 +3,7 @@ const { Conflict } = require("../../helpers/errors/authErrors");
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
+const TokenSchema = require('../../models/tokenSchema')
 const jwt = require("jsonwebtoken");
 
 const signup = async (email, password, name) => {
@@ -28,44 +29,38 @@ const signup = async (email, password, name) => {
   // await user.save()
 
   const { _id: id } = await newUser.save();
-  // const token= await jwt.sign({ id, name}, process.env.SECRET,{expiresIn:'1h'})
+  
   const token = await jwt.sign(
     { id: id, createdAt: newUser.createdAt },
     process.env.SECRET,
     { expiresIn: "1h" }
   );
-
-  console.log("token", token);
   const refreshToken = jwt.sign(
     { id: id, createdAt: newUser.createdAt },
     process.env.REFRESH_SECRET,
     { expiresIn: "30d" }
   );
-  console.log("refreshToken", refreshToken);
 
-  newUser.token = token;
-newUser.refreshToken= refreshToken;
+newUser.token = token;
 newUser.isActivated=true;
+newUser.refreshToken = refreshToken; 
   await newUser.save();
-  console.log('newUser',newUser)
-  // await token.save()
-//   const tokenUser= new UserSchema({
-//       name,
-//   email,
-//   password:hashPassword,
-//       token,
-//       refreshToken,
-//   })
-//   await tokenUser.save()
-//   console.log('tokenUser',tokenUser)
-  // return token
-  //
+   console.log('newUser',newUser)
 
-  // const token= await jwt.sign({id, name}, process.env.SECRET,{expiresIn:'1h'})
+//   const { _id: id } = await newUser.save();
+//   console.log('user',user)
 
-  // name,
-  // email,
-  // password:hashPassword,
-  // token:token
+//   const tokenData =await UserSchema.findOne({user:id})
+//   if(tokenData){
+   
+// };  
+
+
+//   await new UserSchema({ user: user.id, token: refreshToken }).save();
+// console.log('tokenData',tokenData)
+console.log('TokenSchema', TokenSchema)
 };
+
+
+
 module.exports = signup;

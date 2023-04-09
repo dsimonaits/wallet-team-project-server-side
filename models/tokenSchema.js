@@ -8,10 +8,14 @@ user:{
     type: Schema.Types.ObjectId, 
     ref:"user"
 },
-   refreshToken:{
+  refreshToken:{
         type:String,
         required:true
-  }
+  },
+  createdAt:{
+    type:Date,
+    default:Date.now()
+ }
 });
    
   const TokenSchema = mongoose.model("Token", tokenSchema);
