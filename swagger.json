@@ -1,0 +1,283 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Wallet",
+    "description": "The application for count money",
+    "version": "1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/license/mit-0/"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    { "url": "http//localhost/3000" },
+    { "url": "https://wallet-team-project-hg8k.onrender.com" }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Authorization endpoints" },
+    { "name": "Transaction", "description": "Transactions endpoints" }
+  ],
+  "paths": {
+    "api/user/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary ": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration object",
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "new user created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "was registered before",
+            "content": {}
+          }
+        }
+      }
+    },
+    "api/transaction/create": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary ": "Create transaction",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Transaction object",
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTransactionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "api/transaction/getAll": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary ": "Get all transactions",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Without only first 5 transactions sorted from new to old"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "List of transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllTransactionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password", "name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex Solt"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Registration token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex Solt"
+          },
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": "3000"
+          }
+        }
+      },
+      "CreateTransactionRequest": {
+        "type": "object",
+        "required": ["type", "sum", "date"],
+        "properties": {
+          "type": {
+            "type": "boolean",
+            "description": "true = income, false = outcome",
+            "example": true
+          },
+          "sum": {
+            "type": "number",
+            "description": "transaction sum",
+            "example": 300
+          },
+          "category": {
+            "type": "string",
+            "description": "transaction category: only for outcome!",
+            "example": "Car"
+          },
+          "date": {
+            "type": "string",
+            "description": "Transaction date in format: year-month-day",
+            "example": "2023-04-12"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Transaction comment",
+            "example": "Fix car"
+          }
+        }
+      },
+      "CreateTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "boolean",
+            "description": "true = income, false = outcome",
+            "example": true
+          },
+          "sum": {
+            "type": "number",
+            "description": "transaction sum",
+            "example": 300
+          },
+          "category": {
+            "type": "string",
+            "description": "transaction category: only for outcome!",
+            "example": "Car"
+          },
+          "date": {
+            "type": "string",
+            "description": "Transaction date in format: year-month-day",
+            "example": "2023-04-12"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Transaction comment",
+            "example": "Fix car"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Transaction id",
+            "example": "643192af26c67d154c63ff48"
+          }
+        }
+      },
+      "GetAllTransactionsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "boolean",
+              "description": "true = income, false = outcome",
+              "example": true
+            },
+            "sum": {
+              "type": "number",
+              "description": "transaction sum",
+              "example": 300
+            },
+            "category": {
+              "type": "string",
+              "description": "transaction category: only for outcome!",
+              "example": "Car"
+            },
+            "date": {
+              "type": "string",
+              "description": "Transaction date in format: year-month-day",
+              "example": "2023-04-12"
+            },
+            "comment": {
+              "type": "string",
+              "description": "Transaction comment",
+              "example": "Fix car"
+            },
+            "_id": {
+              "type": "string",
+              "description": "Transaction id",
+              "example": "643192af26c67d154c63ff48"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "schema": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
