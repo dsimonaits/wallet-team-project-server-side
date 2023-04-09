@@ -15,11 +15,11 @@ const authMiddleware = async (req, res, next) => {
     if (!user) {
       throw new Unauthorized("Not authorized");
     }
-    const findedUser = await UserSchema.findById({ _id: user.id });
-
+    const findedUser = await UserSchema.findById({ _id: user._id });
     if (!findedUser) {
       throw new NotFound("User is not found");
     }
+
     req.user = findedUser;
     req.token = token;
     next();
