@@ -1,7 +1,7 @@
-const UserSchema = require("../../../models/userSchema");
+const UserSchema = require("../../models/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { RequestError } = require("../../../helpers/errors");
+const { RequestError } = require("../../helpers/errors");
 
 const loginService = async (email, password) => {
   const user = await UserSchema.findOne({ email });
