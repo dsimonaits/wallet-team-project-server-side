@@ -11,14 +11,13 @@ const {
 
 const auth = require("../../middlewares/authMiddlewares");
 
-router.post('/signup', catchAsync(signupController));
+router.post("/signup", catchAsync(signupController));
 // router.post('/login', login)
 // router.post('/logout',authenticate, logout )
 // router.get('/users/current',currentUser )
 // router.get('/activate/:link', activate)
-router.get('/:id', catchAsync(getUserById))
-router.get('/refresh', refreshTokenController)
-router.get('/users', catchAsync(usersController))
-
+router.get("/:id", catchAsync(getUserById));
+router.get("/refresh", refreshTokenController);
+router.get("/users", catchAsync(usersController));
 
 module.exports = router;
