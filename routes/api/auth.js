@@ -10,9 +10,10 @@ const {
 } = require("../../controllers/auth/index");
 
 const auth = require("../../middlewares/authMiddlewares");
+const { validationAuth } = require("../../helpers/validation");
 
 router.post("/signup", catchAsync(signupController));
-router.post("/login", catchAsync(loginController));
+router.post("/login", validationAuth, catchAsync(loginController));
 router.get("/logout", auth, catchAsync(logoutController));
 // router.get('/users/current',currentUser )
 // router.get('/activate/:link', activate)
