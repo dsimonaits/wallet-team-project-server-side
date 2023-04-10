@@ -1,9 +1,11 @@
 const axios = require("axios");
 const pLimit = require("p-limit");
 
+const concurrencyLimit = 1;
+
 const limit = pLimit({
-  concurrency: 1,
-  interval: 5 * 60 * 1000,
+  concurrency: concurrencyLimit,
+  interval: 300000,
 });
 
 const STORAGE_KEY = "cachedResponse";
