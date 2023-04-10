@@ -11,15 +11,19 @@ const authMiddleware = async (req, res, next) => {
     if (tokenType !== "Bearer") {
       throw new Unauthorized("Invalid token type");
     }
+
     const user = jwt.decode(token, process.env.JWT_SECRET);
+
     if (!user) {
       throw new Unauthorized("Not authorized");
     }
-    const findedUser = await UserSchema.findById({ _id: user.id });
+
+    const findedUser = await UserSchema.findById({ _id: user._id });
 
     if (!findedUser) {
       throw new NotFound("User is not found");
     }
+
     req.user = findedUser;
     req.token = token;
     next();

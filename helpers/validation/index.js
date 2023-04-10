@@ -1,7 +1,9 @@
 const validationCreateTransaction = require("./validationCreateTransaction");
-const validationAuth = require("./validationlogin");
+const validationUpdateTransaction = require("./validateUpdateTransaction");
+const validateAuth = require("./validationlogin");
 
 module.exports = {
   validationCreateTransaction,
-  validationAuth,
+  validationUpdateTransaction,
+  validateAuth,
 };
