@@ -22,31 +22,28 @@ const signup = async (email, password, name) => {
     email,
     password: hashPassword,
   });
-
+  console.log("newUser", newUser);
   //   console.log("newUser", newUser);
 
   // await user.save()
 
-  const { _id: id } = await newUser.save();
-
   const token = await jwt.sign(
-    { id:newUser.id, createdAt: newUser.createdAt },
+    { _id: newUser._id, createdAt: newUser.createdAt },
     process.env.SECRET,
     { expiresIn: "1h" }
   );
 
   const refreshToken = jwt.sign(
-    { id: id, createdAt: newUser.createdAt },
+    { _id: newUser._id, createdAt: newUser.createdAt },
     process.env.REFRESH_SECRET,
     { expiresIn: "30d" }
   );
-newUser.token = token;
-newUser.isActivated=true;
-newUser.refreshToken = refreshToken; 
+  newUser.token = token;
+  newUser.isActivated = true;
+  newUser.refreshToken = refreshToken;
 
   await newUser.save();
    return {name:name,token,balance:0}
-
 };
 
 module.exports = signup;
