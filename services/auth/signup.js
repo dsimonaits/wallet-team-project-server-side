@@ -43,7 +43,7 @@ const signup = async (email, password, name) => {
   newUser.refreshToken = refreshToken;
 
   await newUser.save();
-  return { newUser: { name: name, token, balance: 0 } };
+   return {name:name,token,balance:0}
 };
 
 module.exports = signup;
