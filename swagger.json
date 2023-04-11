@@ -93,7 +93,7 @@
       }
     },
     "/api/user/logout": {
-      "get": {
+      "post": {
         "tags": ["Auth"],
         "summary ": "Logout user",
         "parameters": [],
@@ -108,6 +108,53 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/user/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary ": "Get current user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getCurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/user/google": {
+      "get": {
+        "tags": ["Auth"],
+        "summary ": "Google auth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/googleAuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {}
           }
         }
       }
@@ -136,6 +183,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateTransactionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/update/": {
+      "put": {
+        "tags": ["Transaction"],
+        "summary ": "Update transaction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "description": "Transaction id"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Transaction object",
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateTransactionResponse"
                 }
               }
             }
@@ -216,6 +304,25 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DeleteTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/currenciesApi": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary ": "Get currencies",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Currencies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getCurrenciesResponse"
                 }
               }
             }
@@ -317,7 +424,7 @@
           },
           "sum": {
             "type": "number",
-            "description": "transaction sum",
+            "description": "transaction sum, only 2 numbers after dot",
             "example": 300
           },
           "category": {
@@ -338,6 +445,72 @@
         }
       },
       "CreateTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "boolean",
+            "description": "true = income, false = outcome",
+            "example": true
+          },
+          "sum": {
+            "type": "number",
+            "description": "transaction sum",
+            "example": 300
+          },
+          "category": {
+            "type": "string",
+            "description": "transaction category: only for outcome!",
+            "example": "Car"
+          },
+          "date": {
+            "type": "string",
+            "description": "Transaction date in format: year-month-day",
+            "example": "2023-04-12"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Transaction comment",
+            "example": "Fix car"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Transaction id",
+            "example": "643192af26c67d154c63ff48"
+          }
+        }
+      },
+      "UpdateTransactionRequest": {
+        "type": "object",
+        "required": ["type", "sum", "date"],
+        "properties": {
+          "type": {
+            "type": "boolean",
+            "description": "true = income, false = outcome",
+            "example": true
+          },
+          "sum": {
+            "type": "number",
+            "description": "transaction sum, only 2 numbers after dot",
+            "example": 300
+          },
+          "category": {
+            "type": "string",
+            "description": "transaction category: only for outcome!",
+            "example": "Car"
+          },
+          "date": {
+            "type": "string",
+            "description": "Transaction date in format: year-month-day",
+            "example": "2023-04-12"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Transaction comment",
+            "example": "Fix car"
+          }
+        }
+      },
+      "UpdateTransactionResponse": {
         "type": "object",
         "properties": {
           "type": {
@@ -427,13 +600,81 @@
       },
       "DeleteTransactionResponse": {
         "type": "object"
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "schema": "Bearer",
-        "bearerFormat": "JWT"
+      },
+      "getCurrentResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "example@mail.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex Solt"
+          },
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": "3000"
+          }
+        }
+      },
+      "googleAuthResponse": {
+        "type": "string",
+        "properties": {
+          "token": {
+            "type": "string",
+            "name": "token",
+            "description": "Token will be in response http string"
+          }
+        }
+      },
+      "getCurrenciesResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "currencyCodeA": {
+              "type": "number",
+              "description": "",
+              "example": 840
+            },
+            "currencyCodeB": {
+              "type": "number",
+              "description": "",
+              "example": 300
+            },
+            "rateBuy": {
+              "type": "number",
+              "description": "",
+              "example": 36.65
+            },
+            "date": {
+              "type": "string",
+              "description": "",
+              "example": "1681164074"
+            },
+            "rateCross": {
+              "type": "number",
+              "description": "",
+              "example": 0
+            },
+            "rateSell": {
+              "type": "number",
+              "description": "",
+              "example": "37.4406"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "schema": "Bearer",
+          "bearerFormat": "JWT"
+        }
       }
     }
   }
