@@ -7,13 +7,14 @@ const {
   refreshTokenController,
   loginController,
   logoutController,
+  getUserById
 } = require("../../controllers/auth/index");
 
 const auth = require("../../middlewares/authMiddlewares");
 
 router.post('/signup', catchAsync(signupController));
-// router.post('/login', login)
-// router.post('/logout',authenticate, logout )
+router.post('/login', loginController)
+router.post('/logout',auth, logoutController )
 // router.get('/users/current',currentUser )
 // router.get('/activate/:link', activate)
 router.get('/:id', catchAsync(getUserById))
