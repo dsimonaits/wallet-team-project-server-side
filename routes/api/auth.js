@@ -19,7 +19,7 @@ const { validateAuth } = require("../../helpers/validation");
 const auth = require("../../middlewares/authMiddleware");
 
 router.post("/signup", catchAsync(signupController));
-router.post("/login", /* validateAuth, */ catchAsync(loginController));
+router.post("/login",  validateAuth, catchAsync(loginController));
 router.post("/logout", auth, catchAsync(logoutController));
 router.get("/current", auth, catchAsync(currentUserController));
 // router.get('/activate/:link', activate)
