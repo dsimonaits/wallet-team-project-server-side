@@ -7,21 +7,26 @@ const {
   refreshTokenController,
   loginController,
   logoutController,
+  getUserById,
   googleAuth,
   googleRedirect,
+  currentUserController,
 } = require("../../controllers/auth/index");
 
-const auth = require("../../middlewares/authMiddlewares");
 const { validationAuth } = require("../../helpers/validation");
 
-router.post("/signup", catchAsync(signupController));
+// const auth = require("../../middlewares/authMiddlewares");
+const auth = require('../../middlewares/authMiddleware')
+
+
+router.post('/signup', catchAsync(signupController));
 router.post("/login", validationAuth, catchAsync(loginController));
-router.get("/logout", auth, catchAsync(logoutController));
-// router.get('/users/current',currentUser )
+router.post('/logout',auth,catchAsync( logoutController) )
+router.get('/current', auth, catchAsync(currentUserController ))
 // router.get('/activate/:link', activate)
-// router.get("/:id", catchAsync(getUserById));
-router.get("/refresh", refreshTokenController);
-router.get("/users", catchAsync(usersController));
+router.get('/:id',auth, catchAsync(getUserById))
+router.get('/refresh',auth, catchAsync(refreshTokenController))
+router.get('/users', auth,catchAsync(usersController))
 
 router.get("/google", catchAsync(googleAuth));
 router.get("/google-redirect", catchAsync(googleRedirect));

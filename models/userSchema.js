@@ -4,37 +4,38 @@ const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  
   name: {
     type: String,
     required: [true, "name is required"],
   },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      index:true, 
+    },
+    token: {
+      type: String,
+      default: null,
+    },
+    refreshToken:{
+      type:String,
+     default:null
+},
+    balance:{
+      type:Number,
+      default:0
+    },
+    userId:{
+      type: Schema.Types.ObjectId, 
+      ref:"UserSchema"
   },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-    index: true,
-  },
-  token: {
-    type: String,
-    default: null,
-  },
-  refreshToken: {
-    type: String,
-    default: null,
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-  },
-  balance: {
-    type: Number,
-    default: 0,
-  },
-  isActivated: {
+isActivated:{
     type: Boolean,
     default: false,
   },
