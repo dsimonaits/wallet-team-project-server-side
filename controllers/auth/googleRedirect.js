@@ -43,7 +43,7 @@ const googleRedirect = async (req, res) => {
   const user = await UserSchema.findOne({ email: userData.data.email });
   if (user) {
     const token = jwt.sign({ _id: user._id }, process.env.SECRET, {
-      expiresIn: "1h",
+      expiresIn: "4h",
     });
     const refreshToken = jwt.sign(
       { _id: user._id },
@@ -66,13 +66,15 @@ const googleRedirect = async (req, res) => {
 
   const savedUser = await newUser.save();
   const token = jwt.sign({ _id: savedUser._id }, process.env.SECRET, {
-    expiresIn: "1h",
+    expiresIn: "4h",
   });
   const refreshToken = jwt.sign(
     { _id: savedUser._id },
     process.env.REFRESH_SECRET,
     { expiresIn: "30d" }
   );
+  console.log(token);
+  await UserSchema.findByIdAndUpdate(savedUser._id, { token, refreshToken });
   return res.redirect(
     `${process.env.FRONTEND_URL}?token=${token}&refreshToken=${refreshToken}`
   );
