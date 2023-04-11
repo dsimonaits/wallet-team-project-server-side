@@ -3,8 +3,10 @@ const { WrongParametersError } = require("../../helpers/errors");
 
 const validationUpdateTransaction = (req, res, next) => {
   const schema = joi.object({
-    sum: joi.number().not(0).required(),
-    date: joi.date().required(),
+    type: joi.boolean(),
+    sum: joi.number().not(0),
+    category: joi.string(),
+    date: joi.date(),
     comment: joi.string(),
     id: joi.string(),
   });
