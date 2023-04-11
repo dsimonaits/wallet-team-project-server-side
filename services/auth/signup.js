@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const signup = async (email, password, name) => {
   const user = await UserSchema.findOne({ email, isActivated: true });
   //  console.log('user',user)
+
   if (user) {
     throw new Conflict(`${user.email} was registered before`);
   }
@@ -16,14 +17,17 @@ const signup = async (email, password, name) => {
   // const token = await jwt.sign( {id:user.id,createdAt:user.createdAt} , process.env.SECRET, { expiresIn: "1h" });
 
   //
+
   const activationLink = uuidv4();
   console.log("activationLink", activationLink);
   const hashPassword = await bcrypt.hash(password, 10);
+
   const newUser = new UserSchema({
     name,
     email,
     password: hashPassword,
   });
+
   //   console.log("newUser", newUser);
 
   // await user.save()
@@ -35,6 +39,7 @@ const signup = async (email, password, name) => {
     process.env.SECRET,
     { expiresIn: "1h" }
   );
+
   const refreshToken = jwt.sign(
     { id: id, createdAt: newUser.createdAt },
     process.env.REFRESH_SECRET,
@@ -54,7 +59,6 @@ const signup = async (email, password, name) => {
   //   if(tokenData){
 
   // };
-
   //   await new UserSchema({ user: user.id, token: refreshToken }).save();
   // console.log('tokenData',tokenData)
   console.log("TokenSchema", TokenSchema);
