@@ -7,6 +7,8 @@ const {
   refreshTokenController,
   loginController,
   logoutController,
+  googleAuth,
+  googleRedirect,
 } = require("../../controllers/auth/index");
 
 const auth = require("../../middlewares/authMiddlewares");
@@ -20,5 +22,8 @@ router.get("/logout", auth, catchAsync(logoutController));
 // router.get("/:id", catchAsync(getUserById));
 router.get("/refresh", refreshTokenController);
 router.get("/users", catchAsync(usersController));
+
+router.get("/google", catchAsync(googleAuth));
+router.get("/google-redirect", catchAsync(googleRedirect));
 
 module.exports = router;

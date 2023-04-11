@@ -49,9 +49,7 @@ const signup = async (email, password, name) => {
   newUser.token = token;
   newUser.isActivated = true;
   newUser.refreshToken = refreshToken;
-
   await newUser.save();
-
   console.log("newUser", newUser);
 
   //   const { _id: id } = await newUser.save();
@@ -61,7 +59,6 @@ const signup = async (email, password, name) => {
   //   if(tokenData){
 
   // };
-
   //   await new UserSchema({ user: user.id, token: refreshToken }).save();
   // console.log('tokenData',tokenData)
   console.log("TokenSchema", TokenSchema);
