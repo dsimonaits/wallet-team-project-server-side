@@ -7,7 +7,7 @@ const transactionGetAllCtrl = async (req, res, next) => {
   const data = await transactionGetAll(userId, page);
   res
     .status(200)
-    .json(responseOk("success", 201, "List of transactions", data));
+    .json(responseOk("success", 200, "List of transactions", data));
 };
 
 module.exports = transactionGetAllCtrl;

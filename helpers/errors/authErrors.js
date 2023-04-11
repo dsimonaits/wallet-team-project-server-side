@@ -1,7 +1,8 @@
 class AuthError extends Error {
   constructor(message) {
-    super(message);
+    super();
     this.status = 400;
+    this.message = message;
   }
 }
 class Unauthorized extends AuthError {
