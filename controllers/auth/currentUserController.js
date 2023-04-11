@@ -1,13 +1,13 @@
-// const currentUser = require('../../services/auth/currentUser')
 const { responseOk } = require("../../helpers/responses");
-const currentUserController=(res,req,next)=>{
-// const {_id:id}=req.user;
-// const {_id}= req.params;
-console.log('req.user',req.user)
-// const user = currentUser(id)
-res.json(responseOk("Success", 201, `Current user ${id} fined`, user));
+const currentUsers =require('../../services/auth/currentUser')
+
+const currentController=async(req, res, next)=>{
+  const{_id}=req.user
+   
+ const users = await currentUsers(_id,)
+ 
+  
+  res.json(responseOk("Success", 201, "Text message created", users));
 
 }
-
-
-module.exports=currentUserController
+module.exports=currentController
