@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  
   name: {
     type: String,
     required: [true, "name is required"],
@@ -26,14 +27,14 @@ const userSchema = new Schema({
       type:String,
      default:null
 },
-user:{
-  type: Schema.Types.ObjectId, 
-  ref:"user"
-},
     balance:{
       type:Number,
       default:0
     },
+    userId:{
+      type: Schema.Types.ObjectId, 
+      ref:"UserSchema"
+  },
 isActivated:{
     type: Boolean,
     default:false
