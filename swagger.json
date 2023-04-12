@@ -311,6 +311,26 @@
         }
       }
     },
+    "/api/transaction/statistic": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary ": "Get statistic",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Transaction statistic",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetStatisticResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/currenciesApi": {
       "get": {
         "tags": ["Transaction"],
@@ -628,6 +648,47 @@
             "type": "string",
             "name": "token",
             "description": "Token will be in response http string"
+          }
+        }
+      },
+      "GetStatisticResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "totalSum": {
+                  "type": "number",
+                  "description": "Total sum of category",
+                  "example": 3400
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Category",
+                  "example": "Car"
+                }
+              }
+            }
+          },
+          "transaction": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "boolean",
+                  "description": "Income or outcome",
+                  "example": true
+                },
+                "sum": {
+                  "type": "number",
+                  "description": "Total sum of type transaction",
+                  "example": 43000
+                }
+              }
+            }
           }
         }
       },

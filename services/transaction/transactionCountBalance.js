@@ -2,11 +2,11 @@ const UserSchema = require("../../models/userSchema");
 
 const transactionCountBalance = async (type, sum, _id) => {
   const user = await UserSchema.findById({ _id });
-  let balance = 0;
+  let balance = user.balance;
   if (type) {
-    balance = user.balance + sum;
+    balance += sum;
   } else {
-    balance = user.balance - sum;
+    balance -= sum;
   }
   await UserSchema.findByIdAndUpdate(_id, { balance });
 };
