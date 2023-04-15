@@ -1,6 +1,5 @@
-const jwt = require("jsonwebtoken");
-const UserSchema = require("../models/userSchema");
-const { Unauthorized, NotFound } = require("../helpers/errors");
+const { validateAccessToken } = require("../helpers/validation");
+const { Unauthorized } = require("../helpers/errors");
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -12,27 +11,16 @@ const authMiddleware = async (req, res, next) => {
       throw new Unauthorized("Invalid token type");
     }
 
-    const user = jwt.decode(token, process.env.JWT_SECRET);
+    const userData = validateAccessToken(token);
 
-    if (!user) {
+    if (!userData) {
       throw new Unauthorized("Not authorized");
     }
-    console.log(user);
-    const findedUser = await UserSchema.findById({ _id: user._id }).catch(
-      (error) => {
-        throw new Unauthorized(error.message);
-      }
-    );
 
-    if (!findedUser) {
-      throw new NotFound("User is not found");
-    }
-
-    req.user = findedUser;
-    req.token = token;
+    req.user = userData;
     next();
   } catch (error) {
-    next(error);
+    return next(new Unauthorized());
   }
 };
 
