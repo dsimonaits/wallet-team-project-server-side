@@ -4,6 +4,7 @@ const userDto = (user) => {
     _id: user._id,
     isActivated: user.isActivated,
     name: user.name,
+    balance: user.balance,
   };
 };
 
