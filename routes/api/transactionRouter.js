@@ -17,7 +17,7 @@ router.use(authMiddleware);
 router.post("/create", catchAsync(transactionCreateCtrl));
 router.delete("/delete", catchAsync(transactionDeleteCtrl));
 router.get("/category", catchAsync(transactionGetCategoryCtrl));
-router.get("/statistic", catchAsync(transactionGetStatisticCtrl));
+router.post("/statistic", catchAsync(transactionGetStatisticCtrl));
 router.get("/getAll", catchAsync(transactionGetAllCtrl));
 router.put(
   "/update/:transactionId",
