@@ -8,7 +8,7 @@ const transactionGetStatistic = async (_id, { month, year }) => {
     {
       $match: {
         owner: _id,
-        type: true,
+        type: false,
         date: {
           $gte: startDate,
           $lte: endDate,

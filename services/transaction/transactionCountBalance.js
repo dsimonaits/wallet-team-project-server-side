@@ -4,9 +4,10 @@ const transactionCountBalance = async (type, sum, _id) => {
   const user = await UserSchema.findById({ _id });
   let balance = user.balance;
   if (type) {
-    balance += sum;
+    console.log(typeof balance, typeof Number(sum));
+    balance += Number(sum);
   } else {
-    balance -= sum;
+    balance -= Number(sum);
   }
   await UserSchema.findByIdAndUpdate(_id, { balance });
 };
