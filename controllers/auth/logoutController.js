@@ -1,9 +1,10 @@
-const UserSchema = require("../../models/userSchema");
+const logoutService = require("../../services/auth/logoutServices");
 
-const logoutController = async (req, res) => {
-  const { _id } = req.user;
+const logoutController = async (req, res, next) => {
+  const { refreshToken } = req.cookies;
 
-  await UserSchema.findByIdAndUpdate(_id, { token: null });
+  await logoutService(refreshToken);
+  res.clearCookie("refreshToken");
 
   res.json({
     message: "Logout success response",

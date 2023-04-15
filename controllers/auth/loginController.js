@@ -1,24 +1,22 @@
 const loginService = require("../../services/auth/loginService");
+const { responseOk } = require("../../helpers/responses");
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await loginService(email, password);
+  const data = await loginService(email, password);
 
-  if (!user) {
+  if (!data) {
     return res.status(400).json({
       message: "Incorrect login or password",
     });
   }
 
-  return res.json({
-    Status: "200 OK",
-    ResponseBody: {
-      token: user.token,
-      name: user.name,
-      balance: user.balance,
-    },
+  res.cookie("refreshToken", data.refreshToken, {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
   });
+  res.json(responseOk("success", 200, "Login is successful", data));
 };
 
 module.exports = loginController;

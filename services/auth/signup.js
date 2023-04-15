@@ -2,48 +2,38 @@ const UserSchema = require("../../models/userSchema");
 const { Conflict } = require("../../helpers/errors/authErrors");
 const bcrypt = require("bcryptjs");
 const { v4: uuidv4 } = require("uuid");
+const { userDto } = require("../../helpers/dtos");
 require("dotenv").config();
-// const TokenSchema = require('../../models/tokenSchema')
-const jwt = require("jsonwebtoken");
+
+const sendActivationMail = require("./mailServices");
+const { tokenService, saveToken } = require("./tokenService");
 
 const signup = async (email, password, name) => {
-  const user = await UserSchema.findOne({ email, isActivated: true });
-  //  console.log('user',user)
+  const candidate = await UserSchema.findOne({ email });
 
-  if (user) {
-    throw new Conflict(`${user.email} was registered before`);
+  if (candidate) {
+    throw new Conflict(`${candidate.email} was registered before`);
   }
   const activationLink = uuidv4();
-  console.log("activationLink", activationLink);
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const newUser = new UserSchema({
+  const newUser = await UserSchema.create({
     name,
     email,
     password: hashPassword,
+    activationLink,
   });
-  console.log("newUser", newUser);
-  //   console.log("newUser", newUser);
 
-  // await user.save()
-
-  const token = await jwt.sign(
-    { _id: newUser._id, createdAt: newUser.createdAt },
-    process.env.SECRET,
-    { expiresIn: "1h" }
+  await sendActivationMail(
+    email,
+    `${process.env.BASE_URL}/api/user/activate/${activationLink}`
   );
+  const newUserDto = userDto(newUser);
 
-  const refreshToken = jwt.sign(
-    { _id: newUser._id, createdAt: newUser.createdAt },
-    process.env.REFRESH_SECRET,
-    { expiresIn: "30d" }
-  );
-  newUser.token = token;
-  newUser.isActivated = true;
-  newUser.refreshToken = refreshToken;
+  const tokens = await tokenService(newUserDto);
+  await saveToken(newUserDto._id, tokens.refreshToken);
 
-  await newUser.save();
-   return {name:name,token,balance:0}
+  return { ...tokens, ...newUserDto };
 };
 
 module.exports = signup;

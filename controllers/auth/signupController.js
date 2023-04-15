@@ -9,7 +9,11 @@ const signupController = async (req, res, next) => {
   if (error) {
     return res.send(error.details);
   }
-  const user = await signup(email, password, name);
-  res.json(responseOk("Created", 201, "new user created", user));
+  const data = await signup(email, password, name);
+  res.cookie("refreshToken", data.refreshToken, {
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  });
+  res.json(responseOk("Created", 201, "new user created", data));
 };
 module.exports = signupController;

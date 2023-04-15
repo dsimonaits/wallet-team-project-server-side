@@ -1,26 +1,37 @@
 const nodemailer = require("nodemailer");
-// require('dotenv').config();
+require("dotenv").config();
 
 const config = {
-    host: 'smtp.mailfence.com',
-    port: 465,
-    secure:true,
-    auth: {
-        user: 'galyna.matvienko@mailfence.com',
-        pass: 'My12345678my'
-      },
-    };
-    const transporter= nodemailer.createTransport(config)
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASSWORD,
+  },
+};
+const transporter = nodemailer.createTransport(config);
 
-
-const  mailer= message =>{
-   transporter.sendMail(message, (err, info)=>{
-        if(err) {
-            return console.log(err)}
-    console.log('sent email:',info)
-    }
-
-)
-
-}
-module.exports= mailer
+const sendActivationMail = async (to, link) => {
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to,
+      subject: "Activation your wallet account in" + process.env.BASE_URL,
+      text: "",
+      html: `
+      <html>
+        <body>
+          <div>
+            <h1>For activation push to link</h1>
+            <a href="${link}">${link}</a>
+          </div>
+        </body>
+      </html>
+    `,
+    });
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+module.exports = sendActivationMail;

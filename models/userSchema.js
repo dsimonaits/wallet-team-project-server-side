@@ -17,21 +17,9 @@ const userSchema = new Schema({
     unique: true,
     index: true,
   },
-  token: {
-    type: String,
-    default: null,
-  },
-  refreshToken: {
-    type: String,
-    default: null,
-  },
   balance: {
     type: Number,
     default: 0,
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "UserSchema",
   },
   isActivated: {
     type: Boolean,
