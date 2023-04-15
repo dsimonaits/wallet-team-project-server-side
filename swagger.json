@@ -332,7 +332,7 @@
       }
     },
     "/api/transaction/statistic": {
-      "get": {
+      "post": {
         "tags": ["Transaction"],
         "summary ": "Get statistic",
         "parameters": [],
