@@ -112,6 +112,25 @@
         }
       }
     },
+    "/api/user/refresh": {
+      "get": {
+        "tags": ["Auth"],
+        "summary ": "User token refresh",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user/current": {
       "get": {
         "tags": ["Auth"],
@@ -194,7 +213,7 @@
         }
       }
     },
-    "/api/update/": {
+    "/api/transaction/update/": {
       "put": {
         "tags": ["Transaction"],
         "summary ": "Update transaction",
@@ -266,6 +285,7 @@
         "tags": ["Transaction"],
         "summary ": "Get categories array",
         "parameters": [],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Categories array",
@@ -377,7 +397,7 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "accessToken": {
             "type": "string",
             "description": "Registration token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
@@ -391,6 +411,30 @@
             "type": "number",
             "description": "User's balance",
             "example": "3000"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token, automatically save to the cookies",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User id",
+            "example": "6439da094bf2bf5032861e1c"
+          },
+          "isActivated": {
+            "type": "boolean",
+            "description": "Is user confirm his password"
+          },
+          "activationLink": {
+            "type": "string",
+            "description": "Link for activate account throw activation route",
+            "example": "activationLink"
+          },
+          "createdAt": {
+            "type": "date",
+            "description": "Date when user create account",
+            "example": "2023-04-14T22:52:06.585+00:00"
           }
         }
       },
@@ -413,7 +457,7 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "accessToken": {
             "type": "string",
             "description": "Login token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
@@ -427,11 +471,50 @@
             "type": "number",
             "description": "User's balance",
             "example": "3000"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token, automatically save to the cookies",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User id",
+            "example": "6439da094bf2bf5032861e1c"
+          },
+          "isActivated": {
+            "type": "boolean",
+            "description": "Is user confirm his password"
+          },
+          "activationLink": {
+            "type": "string",
+            "description": "Link for activate account throw activation route",
+            "example": "activationLink"
+          },
+          "createdAt": {
+            "type": "date",
+            "description": "Date when user create account",
+            "example": "2023-04-14T22:52:06.585+00:00"
           }
         }
       },
       "LogoutResponse": {
         "type": "object"
+      },
+      "RefreshResponse": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "Refresh token, automatically save to the cookies",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
+          },
+          "accessToken": {
+            "type": "string",
+            "description": "Login token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzMwMGYyMGZmMGY4MDRjMDk4OTQyNSIsIm5hbWUiOiJBbmRyaWkiLCJpYXQiOjE2ODEwNjQxNzgsImV4cCI6MTY4MTA2Nzc3OH0.Pu-AXK4wQULw3Oq4SxCStkpps-mQPEYNUplI4E9K7WU"
+          }
+        }
       },
       "CreateTransactionRequest": {
         "type": "object",
