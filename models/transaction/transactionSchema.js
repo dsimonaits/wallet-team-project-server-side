@@ -24,6 +24,13 @@ const transactionSchema = new Schema({
       "Leisure",
       "Other",
     ],
+    default: function () {
+      if (this.name === "") {
+        return "Unknown";
+      } else {
+        return this.name;
+      }
+    },
   },
   date: {
     type: Date,
@@ -31,7 +38,15 @@ const transactionSchema = new Schema({
   },
   comment: {
     type: String,
+    default: function () {
+      if (this.name === "") {
+        return "Unknown";
+      } else {
+        return this.name;
+      }
+    },
   },
+
   //   month: {
   //     type: Number,
   //   },
