@@ -6,7 +6,6 @@ const transactionUpdate = async (
   transactionId
 ) => {
   const transaction = await TransactionSchema.findOne({ _id: transactionId });
-  console.log(transaction);
   if (transaction._id !== transactionId) {
     transactionCountBalance(type, sum * 2, transaction.owner);
   }
