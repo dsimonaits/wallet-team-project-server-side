@@ -1,30 +1,28 @@
 const UserSchema = require("../../models/userSchema");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { tokenService, saveToken } = require("./tokenService");
+const { userDto } = require("../../helpers/dtos");
 const { RequestError } = require("../../helpers/errors");
 
 const loginService = async (email, password) => {
   const user = await UserSchema.findOne({ email });
 
+  if (!user) {
+    throw new RequestError("Email or password are incorrect");
+  }
+
   const passwordCompare = await bcrypt.compare(password, user.password);
 
   if (!passwordCompare) {
-    throw RequestError(401);
+    throw new RequestError("Email or password are incorrect");
   }
 
-  const payload = {
-    _id: user.id,
-  };
+  const newUserDto = userDto(user);
 
-  const token = await jwt.sign(payload, process.env.SECRET, {
-    expiresIn: "7d",
-  });
+  const tokens = await tokenService(newUserDto);
+  await saveToken(newUserDto._id, tokens.refreshToken);
 
-  await UserSchema.findByIdAndUpdate(user._id, {
-    token,
-  });
-
-  return await UserSchema.findOne({ email });
+  return { ...tokens, ...newUserDto };
 };
 
 module.exports = loginService;

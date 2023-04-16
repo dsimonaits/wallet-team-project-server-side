@@ -1,10 +1,12 @@
 const axios = require("axios");
 const queryString = require("node:querystring");
-const { AuthError } = require("../../helpers/errors");
-const UserSchema = require("../../models/userSchema");
-const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
+
+const { AuthError } = require("../../helpers/errors");
+const UserSchema = require("../../models/userSchema");
+const { userDto } = require("../../helpers/dtos");
+const { tokenService, saveToken } = require("../../services/auth/tokenService");
 
 const googleRedirect = async (req, res) => {
   const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
@@ -42,39 +44,31 @@ const googleRedirect = async (req, res) => {
 
   const user = await UserSchema.findOne({ email: userData.data.email });
   if (user) {
-    const token = jwt.sign({ _id: user._id }, process.env.SECRET, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign(
-      { _id: user._id },
-      process.env.REFRESH_SECRET,
-      { expiresIn: "30d" }
-    );
+    const newUserDto = userDto(user);
+    const tokens = await tokenService(newUserDto);
+    await saveToken(newUserDto._id, tokens.refreshToken);
     return res.redirect(
-      `${process.env.FRONTEND_URL}?token=${token}&refreshToken=${refreshToken}`
+      `${process.env.FRONTEND_URL}?accessToken=${tokens.accessToken}&refreshToken=${tokens.refreshToken}`
     );
   }
 
   const password = uuidv4();
+  const activationLink = uuidv4();
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const newUser = new UserSchema({
+  const newUser = await UserSchema.create({
     name: userData.data.name,
     email: userData.data.email,
     password: hashPassword,
+    activationLink,
   });
 
-  const savedUser = await newUser.save();
-  const token = jwt.sign({ _id: savedUser._id }, process.env.SECRET, {
-    expiresIn: "1h",
-  });
-  const refreshToken = jwt.sign(
-    { _id: savedUser._id },
-    process.env.REFRESH_SECRET,
-    { expiresIn: "30d" }
-  );
+  const newUserDto = userDto(newUser);
+
+  const tokens = await tokenService(newUserDto);
+  await saveToken(newUserDto._id, tokens.refreshToken);
   return res.redirect(
-    `${process.env.FRONTEND_URL}?token=${token}&refreshToken=${refreshToken}`
+    `${process.env.FRONTEND_URL}?accessToken=${tokens.accessToken}&refreshToken=${tokens.refreshToken}`
   );
 };
 

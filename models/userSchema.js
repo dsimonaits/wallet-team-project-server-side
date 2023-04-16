@@ -1,41 +1,27 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-// const { number } = require("joi");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  
   name: {
     type: String,
     required: [true, "name is required"],
   },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-    },
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      unique: true,
-      index:true, 
-    },
-    token: {
-      type: String,
-      default: null,
-    },
-    refreshToken:{
-      type:String,
-     default:null
-},
-    balance:{
-      type:Number,
-      default:0
-    },
-    userId:{
-      type: Schema.Types.ObjectId, 
-      ref:"UserSchema"
+  password: {
+    type: String,
+    required: [true, "Password is required"],
   },
-isActivated:{
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+    index: true,
+  },
+  balance: {
+    type: Number,
+    default: 0,
+  },
+  isActivated: {
     type: Boolean,
     default: false,
   },
