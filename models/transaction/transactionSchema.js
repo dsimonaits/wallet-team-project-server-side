@@ -24,13 +24,6 @@ const transactionSchema = new Schema({
       "Leisure",
       "Other",
     ],
-    default: function () {
-      if (this.name === "") {
-        return "Unknown";
-      } else {
-        return this.name;
-      }
-    },
   },
   date: {
     type: Date,
@@ -38,33 +31,14 @@ const transactionSchema = new Schema({
   },
   comment: {
     type: String,
-    default: function () {
-      if (this.name === "") {
-        return "Unknown";
-      } else {
-        return this.name;
-      }
-    },
+    default: "",
   },
-
-  //   month: {
-  //     type: Number,
-  //   },
-  //   year: {
-  //     type: Number,
-  //   },
   owner: {
     type: Object,
     ref: "user",
     required: true,
   },
 });
-
-// transactionSchema.pre("save", function (next) {
-//   this.month = this.date.getMonth() + 1;
-//   this.year = this.date.getFullYear();
-//   next();
-// });
 
 const TransactionSchema = mongoose.model("Transaction", transactionSchema);
 module.exports = TransactionSchema;
