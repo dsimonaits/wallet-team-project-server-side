@@ -6,7 +6,7 @@ const transactionCreate = async (
   { type, sum, category, date, comment },
   owner
 ) => {
-  const newTransaction = new TransactionSchema({
+  const newTransaction = await TransactionSchema.create({
     type,
     sum,
     category,
@@ -18,6 +18,13 @@ const transactionCreate = async (
     throw new WrongParametersError(error.message, error.path);
   });
   transactionCountBalance(type, sum, owner);
-  return { type, sum, category, date, comment, _id: newTransaction._id };
+  return {
+    type: newTransaction.type,
+    sum: newTransaction.sum,
+    category: newTransaction.category,
+    date: newTransaction.date,
+    comment: newTransaction.comment,
+    _id: newTransaction._id,
+  };
 };
 module.exports = transactionCreate;
