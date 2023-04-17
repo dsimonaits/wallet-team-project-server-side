@@ -1,12 +1,13 @@
 const { transactionUpdate } = require("../../services/transaction");
 
 const transactionUpdateCtrl = async (req, res) => {
+  const userId = req.user._id;
   const updatedTransaction = await transactionUpdate(
     req.body,
-    req.params.transactionId
+    req.params.transactionId,
+    userId
   );
-
-  res.json({ message: { updatedTransaction } });
+  res.status(200).json(updatedTransaction);
 };
 
 module.exports = transactionUpdateCtrl;
