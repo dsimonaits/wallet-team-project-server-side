@@ -1,3 +1,4 @@
 const responseOk = require("./responseOk");
+const getUserData = require("./getUserData");
 
-module.exports = { responseOk };
+module.exports = { responseOk, getUserData };
