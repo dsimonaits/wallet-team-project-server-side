@@ -2,17 +2,21 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
+const cookieParser = require("cookie-parser");
 const swaggerDocument = require("./swagger.json");
+require("./config/config-passport");
+require("dotenv").config();
 
-const { transactionRouter } = require("./routes/api");
-const authRouter = require("./routes/api/auth");
-const currenciesApi = require("./routes/api/currenciesApiRouter");
+const {
+  transactionRouter,
+  currenciesRouter,
+  authRouter,
+} = require("./routes/api");
 const { checkConnection } = require("./models/connectionMongoDb");
 const errorHandler = require("./helpers/errors/errorHandler");
+
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-const cookieParser = require("cookie-parser");
-require("dotenv").config();
 
 app.use(checkConnection);
 app.use(logger(formatsLogger));
@@ -21,18 +25,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-require("./config/config-passport");
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 app.use("/api/user", authRouter);
 app.use("/api/transaction", transactionRouter);
-app.use("/api/currenciesApi", currenciesApi);
+app.use("/api/currenciesApi", currenciesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Page not found" });
 });
-
 app.use(errorHandler);
 
 module.exports = app;

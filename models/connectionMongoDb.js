@@ -7,7 +7,6 @@ const mongooseConnect = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  console.log(typeof process.env.DB_HOST);
 };
 
 const checkConnection = (req, res, next) => {

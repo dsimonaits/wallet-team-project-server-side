@@ -11,7 +11,7 @@ const {
   googleRedirect,
   currentUserController,
   activateCtrl,
-} = require("../../controllers/auth/index");
+} = require("../../controllers/auth");
 
 const { validateAuth } = require("../../helpers/validation");
 const auth = require("../../middlewares/authMiddleware");
