@@ -437,11 +437,6 @@
             "type": "boolean",
             "description": "Is user confirm his password"
           },
-          "activationLink": {
-            "type": "string",
-            "description": "Link for activate account throw activation route",
-            "example": "activationLink"
-          },
           "createdAt": {
             "type": "date",
             "description": "Date when user create account",
@@ -497,11 +492,6 @@
             "type": "boolean",
             "description": "Is user confirm his password"
           },
-          "activationLink": {
-            "type": "string",
-            "description": "Link for activate account throw activation route",
-            "example": "activationLink"
-          },
           "createdAt": {
             "type": "date",
             "description": "Date when user create account",
@@ -549,7 +539,7 @@
           "date": {
             "type": "string",
             "description": "Transaction date in format: year-month-day",
-            "example": "2023-04-12"
+            "example": "2023-04-19T12:12:12.000Z"
           },
           "comment": {
             "type": "string",
@@ -579,7 +569,7 @@
           "date": {
             "type": "string",
             "description": "Transaction date in format: year-month-day",
-            "example": "2023-04-12"
+            "example": "2023-04-19T12:12:12.000Z"
           },
           "comment": {
             "type": "string",
@@ -615,7 +605,7 @@
           "date": {
             "type": "string",
             "description": "Transaction date in format: year-month-day",
-            "example": "2023-04-12"
+            "example": "2023-04-19T12:12:12.000Z"
           },
           "comment": {
             "type": "string",
@@ -645,7 +635,7 @@
           "date": {
             "type": "string",
             "description": "Transaction date in format: year-month-day",
-            "example": "2023-04-12"
+            "example": "2023-01-13T11:20:00.000Z"
           },
           "comment": {
             "type": "string",
@@ -657,6 +647,11 @@
             "description": "Transaction id",
             "example": "643192af26c67d154c63ff48"
           }
+        },
+        "balance": {
+          "type": "number",
+          "description": "User balance",
+          "example": 3000
         }
       },
       "GetAllTransactionsResponse": {
@@ -713,7 +708,19 @@
         }
       },
       "DeleteTransactionResponse": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "balance": {
+            "type": "number",
+            "description": "User balance",
+            "example": 3400
+          },
+          "sum": {
+            "type": "number",
+            "description": "Sum of deleted transaction",
+            "example": 230
+          }
+        }
       },
       "getCurrentResponse": {
         "type": "object",
@@ -732,6 +739,11 @@
             "type": "number",
             "description": "User's balance",
             "example": "3000"
+          },
+          "createdAt": {
+            "type": "date",
+            "description": "Date and time when user was created",
+            "example": "2023-04-17T18:11:08.566Z"
           }
         }
       },
