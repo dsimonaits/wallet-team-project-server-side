@@ -1,7 +1,5 @@
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
-// const dotenv = require("dotenv");
-
 const UserSchema = require("../models/userSchema.js");
 require("dotenv").config();
 

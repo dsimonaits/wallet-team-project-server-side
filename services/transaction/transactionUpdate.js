@@ -1,23 +1,27 @@
-const getUserData = require("../../helpers/responses/getUserData");
+const { getUserData } = require("../../helpers/responses");
 const { TransactionSchema } = require("../../models/transaction");
 const { transactionCountBalance } = require("./transactionCountBalance");
 
-const transactionUpdate = async (
-  { sum, date, comment, type },
-  transactionId,
-  userId
-) => {
+const transactionUpdate = async (data, transactionId, userId) => {
   const transaction = await TransactionSchema.findOne({ _id: transactionId });
-  if (transaction.type !== type) {
-    transactionCountBalance(type, sum * 2, transaction.owner);
+  if (transaction.type !== data.type && data.sum === transaction.sum) {
+    await transactionCountBalance(data.type, data.sum * 2, transaction.owner);
+  } else if (transaction.type !== data.type && data.sum !== transaction.sum) {
+    await transactionCountBalance(
+      !transaction.type,
+      transaction.sum,
+      transaction.owner
+    );
+    await transactionCountBalance(data.type, data.sum, transaction.owner);
+  } else if (transaction.sum !== data.sum) {
+    await transactionCountBalance(
+      !transaction.type,
+      transaction.sum,
+      transaction.owner
+    );
+    await transactionCountBalance(data.type, data.sum, transaction.owner);
   }
-  await TransactionSchema.findByIdAndUpdate(transactionId, {
-    sum,
-    date,
-    comment,
-    type,
-  });
-
+  await TransactionSchema.findByIdAndUpdate(transactionId, data);
   const newTransaction = await TransactionSchema.findById(transactionId);
   const user = await getUserData(userId);
   return { newTransaction, balance: user.balance };

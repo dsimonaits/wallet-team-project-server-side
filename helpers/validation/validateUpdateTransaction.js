@@ -7,6 +7,7 @@ const validationUpdateTransaction = (req, res, next) => {
     sum: joi.number().not(0).required(),
     date: joi.date().required(),
     comment: joi.string().empty(""),
+    category: joi.string().empty(""),
   });
 
   const validationResult = schema.validate(req.body);
