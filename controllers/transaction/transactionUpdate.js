@@ -8,7 +8,6 @@ const transactionUpdateCtrl = async (req, res) => {
     req.params.transactionId,
     userId
   );
-  res.status(200).json(updatedTransaction);
   res
     .status(200)
     .json(responseOk("success", 200, "Transaction saved", updatedTransaction));
