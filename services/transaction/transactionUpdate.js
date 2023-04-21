@@ -24,7 +24,7 @@ const transactionUpdate = async (data, transactionId, userId) => {
   await TransactionSchema.findByIdAndUpdate(transactionId, data);
   const newTransaction = await TransactionSchema.findById(transactionId);
   const user = await getUserData(userId);
-  const data = { newTransaction: newTransaction, user: user.balance };
+  const data = { newTransaction, user: user.balance };
   return data;
 };
 
