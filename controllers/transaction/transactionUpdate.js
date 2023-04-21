@@ -1,4 +1,5 @@
 const { transactionUpdate } = require("../../services/transaction");
+const { responseOk } = require("../../helpers/responses");
 
 const transactionUpdateCtrl = async (req, res) => {
   const userId = req.user._id;
@@ -8,6 +9,9 @@ const transactionUpdateCtrl = async (req, res) => {
     userId
   );
   res.status(200).json(updatedTransaction);
+  res
+    .status(200)
+    .json(responseOk("success", 200, "Transaction saved", updatedTransaction));
 };
 
 module.exports = transactionUpdateCtrl;
