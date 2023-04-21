@@ -22,10 +22,9 @@ const transactionUpdate = async (data, transactionId, userId) => {
     await transactionCountBalance(data.type, data.sum, transaction.owner);
   }
   await TransactionSchema.findByIdAndUpdate(transactionId, data);
-  const newTransaction = await TransactionSchema.findById(transactionId);
+  // const newTransaction = await TransactionSchema.findById(transactionId);
   const user = await getUserData(userId);
-  console.log(user);
-  return { newTransaction, balance: user.balance };
+  return { balance: user.balance };
 };
 
 module.exports = transactionUpdate;
