@@ -3,7 +3,7 @@ const TokenSchema = require("../../models/tokenSchema");
 
 const tokenService = async (payload) => {
   const accessToken = jwt.sign(payload, process.env.SECRET, {
-    expiresIn: "10m",
+    expiresIn: "30s",
   });
   const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
     expiresIn: "30d",
