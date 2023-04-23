@@ -18,10 +18,13 @@ const errorHandler = require("./helpers/errors/errorHandler");
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
+const allowedOrigins = ["http://localhost:3000", process.env.CLIENT_URL];
+
 app.use(checkConnection);
 app.use(logger(formatsLogger));
 app.use(
   cors({
+    origin: allowedOrigins,
     credentials: true,
   })
 );
