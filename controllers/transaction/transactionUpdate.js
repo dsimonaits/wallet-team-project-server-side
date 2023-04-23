@@ -4,7 +4,7 @@ const { WrongParametersError } = require("../../helpers/errors");
 
 const transactionUpdateCtrl = async (req, res) => {
   const userId = req.user._id;
-  const updatedTransaction = await transactionUpdate(
+  const data = await transactionUpdate(
     req.body,
     req.params.transactionId,
     userId
@@ -14,11 +14,7 @@ const transactionUpdateCtrl = async (req, res) => {
     throw new WrongParametersError("missed transaction ID");
   }
 
-  res
-    .status(200)
-    .json(
-      responseOk("success", 200, "Transaction deleted", updatedTransaction)
-    );
+  res.status(200).json(responseOk("success", 200, "Transaction updated", data));
 };
 
 module.exports = transactionUpdateCtrl;
