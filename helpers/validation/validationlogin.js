@@ -3,8 +3,7 @@ const { AuthError } = require("../../helpers/errors");
 
 const validationAuth = (req, res, next) => {
   const schema = Joi.object({
-    password: Joi.string().regex(
-      /^(?=.*\d)(?=.*[a-z]).{6,16}$/
+    password: Joi.string().regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
     ),
     email: Joi.string().email().required(),
   });
