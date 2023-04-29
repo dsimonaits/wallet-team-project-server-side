@@ -1,6 +1,6 @@
 <h1>Team Project - Wallet</h1>
 
-<h3>Back-end  https://wallet-team-project-hg8k.onrender.com/api-docs/</h3>
+<h3>Back-end docs  https://wallet-team-project-hg8k.onrender.com/api-docs/</h3>
 
 
 <h3>Technical Tasks</h3>
