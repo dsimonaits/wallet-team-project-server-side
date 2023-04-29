@@ -4,6 +4,7 @@
 
 
 <h3>Technical Tasks</h3>
+
 1. Deploy server (error handling, CORS configuration, module connection, etc.)
 2. Discuss structure, initialize and connect database
 3. Create endpoint documentation using swagger-ui-express
