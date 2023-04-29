@@ -21,7 +21,7 @@ router.post("/login", validateAuth, catchAsync(loginController));
 router.post("/logout", auth, catchAsync(logoutController));
 router.get("/current", auth, catchAsync(currentUserController));
 router.get("/activate/:link", catchAsync(activateCtrl));
-router.get("/refresh", auth, catchAsync(refreshTokenController));
+router.get("/refresh", catchAsync(refreshTokenController));
 router.get("/google", catchAsync(googleAuth));
 router.get("/google-redirect", catchAsync(googleRedirect));
 
