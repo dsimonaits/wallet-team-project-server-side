@@ -1,5 +1,9 @@
-https://wallet-team-project-hg8k.onrender.com/api-docs/
+<h1>Team Project - Wallet</h1>
 
+<h3>Back-end  https://wallet-team-project-hg8k.onrender.com/api-docs/</h3>
+
+
+<h3>Technical Tasks</h3>
 1. Deploy server (error handling, CORS configuration, module connection, etc.)
 2. Discuss structure, initialize and connect database
 3. Create endpoint documentation using swagger-ui-express
