@@ -4,6 +4,11 @@ const { responseOk } = require("../../helpers/responses");
 const refreshTokenController = async (req, res, next) => {
   const { refreshToken } = req.cookies;
   const data = await refreshTokenService(refreshToken);
+
+  if (data === null) {
+    res.clearCookie("refreshToken");
+  }
+
   res.cookie("refreshToken", data.refreshToken, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
