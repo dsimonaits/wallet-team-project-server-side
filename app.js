@@ -21,7 +21,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 const allowedOrigins = [
   "http://localhost:3000",
   process.env.CLIENT_URL,
-  "https://dsimonaits.github.io",
+  "https://dsimonaits.github.io/wallet-team-project-client-side/home",
 ];
 
 app.use(checkConnection);
