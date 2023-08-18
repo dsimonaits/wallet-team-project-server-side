@@ -1,9 +1,9 @@
-const logoutService = require("../../services/auth/logoutServices");
+// const logoutService = require("../../services/auth/logoutServices");
 
 const logoutController = async (req, res, next) => {
   const { refreshToken } = req.cookies;
 
-  await logoutService(refreshToken);
+  // await logoutService(refreshToken);
   res.clearCookie("refreshToken");
 
   res.json({
