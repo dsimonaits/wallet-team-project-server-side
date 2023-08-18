@@ -7,12 +7,12 @@ const UserSchema = require("../../models/userSchema");
 
 const refreshTokenService = async (refreshToken) => {
   if (!refreshToken) {
-    throw new Unauthorized();
+    throw new Error();
   }
   const userData = validateRefreshToken(refreshToken);
   const tokenFromDb = await TokenSchema.findOne({ refreshToken });
   if (!userData || !tokenFromDb) {
-    throw new Unauthorized();
+    throw new Error();
   }
 
   const user = await UserSchema.findOne({ _id: userData._id });
