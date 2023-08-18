@@ -7,6 +7,7 @@ const refreshTokenController = async (req, res, next) => {
 
   if (data === null) {
     res.clearCookie("refreshToken");
+    next();
   }
 
   res.cookie("refreshToken", data.refreshToken, {
