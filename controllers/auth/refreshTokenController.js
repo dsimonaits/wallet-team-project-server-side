@@ -7,16 +7,16 @@ const refreshTokenController = async (req, res, next) => {
 
   if (data === null) {
     res.clearCookie("refreshToken");
-    next();
+    res.json(responseOk("success", 200, "Refresh is successful", data));
+  } else {
+    res.cookie("refreshToken", data.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+    res.json(responseOk("success", 200, "Refresh is successful", data));
   }
-
-  res.cookie("refreshToken", data.refreshToken, {
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-  });
-  res.json(responseOk("success", 200, "Refresh is successful", data));
 };
 
 module.exports = refreshTokenController;
