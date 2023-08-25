@@ -31,5 +31,3 @@ const refreshTokenService = async (refreshToken) => {
 };
 
 module.exports = refreshTokenService;
-
-refreshTokenService("bad-token-here");
