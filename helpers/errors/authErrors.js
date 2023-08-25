@@ -7,16 +7,16 @@ class AuthError extends Error {
 }
 class Unauthorized extends AuthError {
   constructor(message, statusType) {
+    super(message);
     this.status = 401;
     this.statusType = statusType;
-    this.message = message;
   }
 }
 class Conflict extends AuthError {
   constructor(message, statusType) {
+    super(message);
     this.status = 409;
     this.statusType = statusType;
-    this.message = message;
   }
 }
 
