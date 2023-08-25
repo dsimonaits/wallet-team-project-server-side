@@ -3,17 +3,15 @@ const { AuthError } = require("./authErrors");
 
 const errorHandler = (error, req, res, next) => {
   if (error instanceof RequestError) {
+    console.log(error);
     return res.status(error.status).json({
-      status: error.statusType,
-      code: error.status,
       ResponseBody: { message: error.message },
     });
   }
 
   if (error instanceof AuthError) {
+    console.log(error);
     return res.status(error.status).json({
-      status: error.statusType,
-      code: error.status,
       ResponseBody: { message: error.message },
     });
   }
@@ -21,7 +19,6 @@ const errorHandler = (error, req, res, next) => {
   const response = {
     status: "Internal Server Error",
     code: 500,
-    message: error.message,
     ResponseBody: { message: error.message },
   };
 

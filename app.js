@@ -36,10 +36,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/user", authRouter);
 app.use("/api/transaction", transactionRouter);
 app.use("/api/currenciesApi", currenciesRouter);
+app.use(errorHandler);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Page not found" });
 });
-app.use(errorHandler);
 
 module.exports = app;
