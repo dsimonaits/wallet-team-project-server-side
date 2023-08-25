@@ -6,19 +6,16 @@ class RequestError extends Error {
 }
 
 class WrongParametersError extends RequestError {
-  constructor(message, statusType) {
-    super();
+  constructor(message) {
+    super(message);
     this.status = 400;
-    this.statusType = statusType;
-    this.message = message;
   }
 }
 
 class NotFound extends RequestError {
-  constructor(message, statusType) {
+  constructor(message) {
     super(message);
     this.status = 404;
-    this.statusType = statusType;
   }
 }
 
