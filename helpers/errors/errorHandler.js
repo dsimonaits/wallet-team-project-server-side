@@ -3,16 +3,14 @@ const { AuthError } = require("./authErrors");
 
 const errorHandler = (error, req, res, next) => {
   if (error instanceof RequestError) {
-    console.log(error);
-    return res.status(error.status).json({
-      ResponseBody: { message: error.message },
+    return res.status(400).json({
+      error: { message: error.message },
     });
   }
 
   if (error instanceof AuthError) {
-    console.log(error);
-    return res.status(error.status).json({
-      ResponseBody: { message: error.message },
+    return res.status(401).json({
+      error: { message: error.message },
     });
   }
 
