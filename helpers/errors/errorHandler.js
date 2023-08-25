@@ -22,7 +22,7 @@ const errorHandler = (error, req, res, next) => {
     ResponseBody: { message: error.message },
   };
 
-  return res.status(500).json(response);
+  res.status(500).json(response);
 };
 
 module.exports = errorHandler;
