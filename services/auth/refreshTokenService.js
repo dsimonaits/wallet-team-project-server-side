@@ -1,4 +1,4 @@
-const { Unauthorized } = require("../../helpers/errors");
+const { AuthError } = require("../../helpers/errors");
 const { validateRefreshToken } = require("../../helpers/validation");
 const TokenSchema = require("../../models/tokenSchema");
 const { tokenService, saveToken } = require("./tokenService");
@@ -7,12 +7,12 @@ const UserSchema = require("../../models/userSchema");
 
 const refreshTokenService = async (refreshToken) => {
   if (!refreshToken) {
-    throw new Error();
+    throw new AuthError("Refresh token not provided");
   }
   const userData = validateRefreshToken(refreshToken);
   const tokenFromDb = await TokenSchema.findOne({ refreshToken });
   if (!userData || !tokenFromDb) {
-    throw new Error();
+    throw new AuthError("Invalid or outdated refresh token");
   }
 
   const user = await UserSchema.findOne({ _id: userData._id });
