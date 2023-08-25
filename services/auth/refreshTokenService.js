@@ -6,28 +6,22 @@ const { userDto } = require("../../helpers/dtos");
 const UserSchema = require("../../models/userSchema");
 
 const refreshTokenService = async (refreshToken) => {
-  try {
-    if (!refreshToken) {
-      throw new AuthError("Refresh token not provided", 400);
-    }
-    const userData = validateRefreshToken(refreshToken);
-    const tokenFromDb = await TokenSchema.findOne({ refreshToken });
-    if (!userData || !tokenFromDb) {
-      throw new Unauthorized("Invalid or outdated refresh token", 401);
-    }
-
-    const user = await UserSchema.findOne({ _id: userData._id });
-    const newUserDto = userDto(user);
-
-    const tokens = await tokenService(newUserDto);
-    await saveToken(newUserDto._id, tokens.refreshToken);
-
-    return { ...tokens, ...newUserDto };
-  } catch (error) {
-    console.error("Error in refreshTokenService:", error);
-    console.trace("Stack trace:");
-    throw error;
+  if (!refreshToken) {
+    return null;
   }
+  const userData = validateRefreshToken(refreshToken);
+  const tokenFromDb = await TokenSchema.findOne({ refreshToken });
+  if (!userData || !tokenFromDb) {
+    return null;
+  }
+
+  const user = await UserSchema.findOne({ _id: userData._id });
+  const newUserDto = userDto(user);
+
+  const tokens = await tokenService(newUserDto);
+  await saveToken(newUserDto._id, tokens.refreshToken);
+
+  return { ...tokens, ...newUserDto };
 };
 
 module.exports = refreshTokenService;
