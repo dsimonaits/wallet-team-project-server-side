@@ -5,7 +5,7 @@
 
 const catchAsync = (controller) => (req, res, next) => {
   controller(req, res, next).catch((error) => {
-    res.status(error.status).json({
+    return res.status(error.status).json({
       code: error.status,
       ResponseBody: { message: error.message },
     });
