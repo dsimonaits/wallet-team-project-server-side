@@ -6,12 +6,6 @@ const loginController = async (req, res) => {
 
   const data = await loginService(email, password);
 
-  if (!data) {
-    return res.status(400).json({
-      message: "Incorrect login or password",
-    });
-  }
-
   res.cookie("refreshToken", data.refreshToken, {
     maxAge: 30 * 24 * 60 * 60 * 1000,
     httpOnly: true,
