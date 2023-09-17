@@ -3,13 +3,16 @@
 
 // module.exports = catchAsync;
 
-const catchAsync = (controller) => (req, res, next) => {
-  controller(req, res, next).catch((error) => {
-    return json({
-      code: error.status,
-      ResponseBody: { message: error.message },
-    });
-  });
+// const catchAsync = (controller) => (req, res, next) => {
+//   controller(req, res, next).catch((error) => {
+//     controller(req, res).catch(next);
+//   });
+// };
+
+const catchAsync = (controller) => {
+  return (req, res, next) => {
+    controller(req, res).catch(next);
+  };
 };
 
 module.exports = catchAsync;
