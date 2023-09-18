@@ -1,17 +1,19 @@
 class AuthError extends Error {
-  constructor(message, statusCode = 400) {
+  constructor(message) {
     super(message);
-    this.statusCode = statusCode;
+    this.statusCode = 401;
   }
 }
 class Unauthorized extends AuthError {
   constructor(message) {
-    super(message, 401);
+    super(message);
+    this.status = 401;
   }
 }
 class Conflict extends AuthError {
   constructor(message) {
-    super(message, 409);
+    super(message);
+    this.status = 409;
   }
 }
 
