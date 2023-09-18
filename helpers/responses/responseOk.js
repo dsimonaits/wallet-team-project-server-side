@@ -1,8 +1,9 @@
 const responseOk = (status, code, message, data, ...rest) => {
   return {
-    status,
+    message,
+    data,
     code,
-    ResponseBody: { message, data, ...rest },
+    status,
   };
 };
 
