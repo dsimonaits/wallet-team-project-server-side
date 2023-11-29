@@ -22,9 +22,7 @@ const loginService = async (email, password) => {
   const tokens = await tokenService(newUserDto);
   await saveToken(newUserDto._id, tokens.refreshToken);
 
-  const accessToken = tokens.accessToken;
-
-  return { accessToken, ...newUserDto };
+  return { ...tokens, ...newUserDto };
 };
 
 module.exports = loginService;
