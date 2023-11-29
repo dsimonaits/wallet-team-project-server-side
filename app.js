@@ -4,6 +4,8 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const cookieParser = require("cookie-parser");
 const swaggerDocument = require("./swagger.json");
+const HttpException = require("./utils/HttpException.utils");
+
 require("./config/config-passport");
 require("dotenv").config();
 
@@ -37,8 +39,9 @@ app.use("/api/user", authRouter);
 app.use("/api/transaction", transactionRouter);
 app.use("/api/currenciesApi", currenciesRouter);
 
-app.use((req, res) => {
-  res.status(404).json({ message: "Page not found" });
+app.all("*", (req, res, next) => {
+  const err = new HttpException(404, "Endpoint Not Found");
+  next(err);
 });
 app.use(errorHandler);
 module.exports = app;
