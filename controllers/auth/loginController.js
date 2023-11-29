@@ -12,7 +12,10 @@ const loginController = async (req, res) => {
     sameSite: "none",
     secure: true,
   });
-  res.json(responseOk("success", 200, "Login is successful", data));
+
+  const { refreshToken, ...restData } = data;
+
+  res.json(responseOk("success", 200, "Login is successful", restData));
 };
 
 module.exports = loginController;
